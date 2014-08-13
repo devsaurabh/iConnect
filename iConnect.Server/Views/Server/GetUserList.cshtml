@@ -1,0 +1,99 @@
+﻿@model IEnumerable<iConnect.Server.ViewModels.UserViewModel>
+
+@{
+    ViewBag.Title = "GetUserList";
+}
+
+
+<div class="well well-sm">
+    <h4>User List</h4>
+    <span class="label label-success">@Html.ActionLink("Create New", "Create")</span>
+    <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MiddleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Alias)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RegisteredOn)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsOnline)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MiddleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Alias)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RegisteredOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsOnline)
+                        </td>
+                        <td>
+                            <span class="label label-warning">@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })</span>
+                            <span class="label label-warning">@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })</span>
+                            <span class="label label-warning">@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</span>
+                             
+                            
+                           
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            @*<tfoot>
+                    <tr>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                </tfoot>*@
+
+
+        </table>
+    <ul class="pager">
+        <li><a href="#">Previous</a></li>
+        <li><a href="#">Next</a></li>
+    </ul>
+</div>
+
+<h2></h2>
+
+
+
