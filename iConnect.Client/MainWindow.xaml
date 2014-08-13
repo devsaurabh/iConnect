@@ -1,7 +1,9 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Name="mainWindow" mc:Ignorable="d" x:Class="iConnect_Client.MainWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:iConnectClient="clr-namespace:iConnect_Client"
+    x:Name="mainWindow" mc:Ignorable="d" x:Class="iConnect_Client.MainWindow"
         Title="iConnect" Height="420" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="1407588704_171258.ico" Loaded="Window_Loaded">
     <Window.Resources>
         <Storyboard x:Key="OnKeyDown1"/>
@@ -20,7 +22,7 @@
 			<RowDefinition Height="340"/>
 			<RowDefinition Height="40"/>
 		</Grid.RowDefinitions>
-		       
+        <iConnectClient:ICTitleBar></iConnectClient:ICTitleBar>       
 		<TextBlock Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="iConnect"
 			FontSize="18.667" FontWeight="Bold" Foreground="#FF00374B" Padding="5" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown">
 			<TextBlock.Background>
