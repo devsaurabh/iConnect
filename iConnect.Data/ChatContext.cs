@@ -1,7 +1,8 @@
 ﻿using System.Data.Entity;
-using iConnect.Server.Framework.Data.Model;
+using iConnect.Data.Configurations;
+using iConnect.Data.Model;
 
-namespace iConnect.Server.Framework.Data
+namespace iConnect.Data
 {
     public class ChatContext : DbContext
     {

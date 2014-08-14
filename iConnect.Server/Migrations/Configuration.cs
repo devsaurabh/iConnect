@@ -1,10 +1,11 @@
 using System;
-using iConnect.Server.Framework.Data.Model;
+using iConnect.Data;
 using System.Data.Entity.Migrations;
+using iConnect.Data.Model;
 
 namespace iConnect.Server.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<iConnect.Server.Framework.Data.ChatContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ChatContext>
     {
         public Configuration()
         {
@@ -12,7 +13,7 @@ namespace iConnect.Server.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(Framework.Data.ChatContext context)
+        protected override void Seed(ChatContext context)
         {
             var adminUser = new User
             {

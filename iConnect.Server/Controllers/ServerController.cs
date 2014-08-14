@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using iConnect.Server.Framework.ApplicationServices;
-using iConnect.Server.Framework.ApplicationServices.Contract;
-using iConnect.Server.Framework.Data;
-using iConnect.Server.Framework.Data.Model;
+using iConnect.Data;
+using iConnect.Data.ApplicationServices;
+using iConnect.Data.ApplicationServices.Contract;
+using iConnect.Data.Model;
 using iConnect.Server.ViewModels;
 
 namespace iConnect.Server.Controllers

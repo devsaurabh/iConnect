@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using iConnect.Server.Framework.Data.Model;
+using iConnect.Data.Model;
 
-namespace iConnect.Server.Framework.Data
+namespace iConnect.Data.Configurations
 {
     public class UserConfiguration : EntityTypeConfiguration<User>
     {

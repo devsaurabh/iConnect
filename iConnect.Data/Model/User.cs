@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace iConnect.Server.Framework.Data.Model
+namespace iConnect.Data.Model
 {
     public class User : BaseEntity
     {

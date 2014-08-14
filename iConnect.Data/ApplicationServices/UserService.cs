@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using iConnect.Server.Framework.ApplicationServices.Contract;
-using iConnect.Server.Framework.Data;
-using iConnect.Server.Framework.Data.Model;
+using iConnect.Data.ApplicationServices.Contract;
+using iConnect.Data.Model;
 
-namespace iConnect.Server.Framework.ApplicationServices
+namespace iConnect.Data.ApplicationServices
 {
     public class UserService : IUserService
     {

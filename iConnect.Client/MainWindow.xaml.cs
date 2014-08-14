@@ -79,7 +79,7 @@ namespace iConnect_Client
             contentCell.Blocks.Add(paragraph1);
             contentCell.Blocks.Add(paragraph);
             row.Cells.Add(contentCell);
-            RowGroup.Rows.Add(row);
+           // RowGroup.Rows.Add(row);
         }
 
         private void GetServerParagraphBlock(string text)
@@ -101,7 +101,7 @@ namespace iConnect_Client
             contentCell.Blocks.Add(paragraph1);
             contentCell.Blocks.Add(paragraph);
             row.Cells.Add(contentCell);
-            RowGroup.Rows.Add(row);
+           // RowGroup.Rows.Add(row);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -136,8 +136,13 @@ namespace iConnect_Client
         }
 
         #endregion
+        
+        private void ICTitleBar_OnCloseClick(object sender, EventArgs e)
+        {
+           Application.Current.Shutdown();
+        }
 
-        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ICTitleBar_OnDrag(object sender, EventArgs e)
         {
             DragMove();
         }

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using iConnect.Server.Framework.ApplicationServices.Contract;
-using iConnect.Server.Framework.Data;
+using iConnect.Data;
 using Microsoft.AspNet.SignalR;
 
-namespace iConnect.Server.Framework.ApplicationServices
+namespace iConnect.Server.Framework.Hubs
 {
     public class ChatHub : Hub, IChatHub
     {

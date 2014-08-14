@@ -154,20 +154,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\ApplicationServices\ChatHub.cs" />
-    <Compile Include="Framework\ApplicationServices\Contract\IChatHub.cs" />
-    <Compile Include="Framework\ApplicationServices\Contract\IUserService.cs" />
-    <Compile Include="Framework\ApplicationServices\UserService.cs" />
+    <Compile Include="Framework\Hubs\ChatHub.cs" />
+    <Compile Include="Framework\Hubs\IChatHub.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Framework\ConstantStrings.cs" />
-    <Compile Include="Framework\Data\ChatContext.cs" />
-    <Compile Include="Framework\Data\MessageConfiguration.cs" />
-    <Compile Include="Framework\Data\Model\User.cs" />
-    <Compile Include="Framework\Data\UserConfiguration.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Global.asax.cs">
@@ -238,6 +232,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\iConnect.Data\iConnect.Data.csproj">
+      <Project>{8e0055a8-c396-465e-8102-1af7d7c211b2}</Project>
+      <Name>iConnect.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

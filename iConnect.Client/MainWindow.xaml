@@ -2,17 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:iConnectClient="clr-namespace:iConnect_Client"
-    x:Name="mainWindow" mc:Ignorable="d" x:Class="iConnect_Client.MainWindow"
-        Title="iConnect" Height="420" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="1407588704_171258.ico" Loaded="Window_Loaded">
+        xmlns:controls="clr-namespace:iConnect_Client.Controls"
+        x:Name="mainWindow" mc:Ignorable="d" x:Class="iConnect_Client.MainWindow"
+        Title="iConnect" Height="420" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="{DynamicResource ApplicationIcon}" Loaded="Window_Loaded">
     <Window.Resources>
-        <Storyboard x:Key="OnKeyDown1"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Images.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
-    <Window.Triggers>
-        <EventTrigger RoutedEvent="Keyboard.KeyDown" SourceName="TextBox">
-            <BeginStoryboard Storyboard="{StaticResource OnKeyDown1}"/>
-        </EventTrigger>
-    </Window.Triggers>
+    
+
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>           
@@ -22,18 +23,8 @@
 			<RowDefinition Height="340"/>
 			<RowDefinition Height="40"/>
 		</Grid.RowDefinitions>
-        <iConnectClient:ICTitleBar></iConnectClient:ICTitleBar>       
-		<TextBlock Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="iConnect"
-			FontSize="18.667" FontWeight="Bold" Foreground="#FF00374B" Padding="5" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown">
-			<TextBlock.Background>
-				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF0086AE" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-			</TextBlock.Background>
-		</TextBlock>
-                
-        <FlowDocumentScrollViewer Grid.Row="1" Grid.Column="0" x:Name="MessageList" Margin="0,0,0,0"  VerticalScrollBarVisibility="Auto" FontSize="13.333" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <controls:ICTitleBar Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Drag="ICTitleBar_OnDrag" CloseClick="ICTitleBar_OnCloseClick"></controls:ICTitleBar>       
+        <!--<FlowDocumentScrollViewer Grid.Row="1" Grid.Column="0" x:Name="MessageList" Margin="0,0,0,0"  VerticalScrollBarVisibility="Auto" FontSize="13.333" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <FlowDocument>
                 <Table Name="ItemsTable" CellSpacing="2" BorderThickness="0" >
                     <Table.Columns>
@@ -44,8 +35,8 @@
                     </TableRowGroup>
                 </Table>
             </FlowDocument>
-        </FlowDocumentScrollViewer>
-
+        </FlowDocumentScrollViewer>-->
+        <ListBox Grid.Row="1" Grid.Column="0"/>
 		<TextBox x:Name="TextBox" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap"  BorderBrush="{x:Null}" FontSize="14" Padding="5" SelectionBrush="#FF44D4FF" KeyDown="textBox_KeyDown" SpellCheck.IsEnabled="True"/>
 
     </Grid>

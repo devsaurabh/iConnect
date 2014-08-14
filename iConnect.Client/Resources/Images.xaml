@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ImageSource x:Key="ApplicationIcon">D:\iConnect\iConnect.Client\Images\imageIcon.ico</ImageSource>
+    <ImageSource x:Key="CloseIcon">D:\iConnect\iConnect.Client\Images\closeButton.ico</ImageSource>
+    
+</ResourceDictionary>

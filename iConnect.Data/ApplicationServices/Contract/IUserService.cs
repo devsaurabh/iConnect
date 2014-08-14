@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using iConnect.Server.Framework.Data.Model;
+using iConnect.Data.Model;
 
-namespace iConnect.Server.Framework.ApplicationServices.Contract
+namespace iConnect.Data.ApplicationServices.Contract
 {
     public interface IUserService
     {

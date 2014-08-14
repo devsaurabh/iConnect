@@ -1,4 +1,4 @@
-﻿namespace iConnect.Server.Framework.ApplicationServices.Contract
+﻿namespace iConnect.Server.Framework.Hubs
 {
     public interface IChatHub
     {
