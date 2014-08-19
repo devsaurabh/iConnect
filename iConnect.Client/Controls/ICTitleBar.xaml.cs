@@ -11,9 +11,6 @@ namespace iConnect_Client.Controls
     /// 
     public partial class ICTitleBar : UserControl
     {
-        public event EventHandler CloseClick;
-        public event EventHandler Drag;
-        
         public ICTitleBar()
         {
             InitializeComponent();
@@ -21,14 +18,12 @@ namespace iConnect_Client.Controls
 
         private void Grid_MouseLeftButtonDown_1(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            EventHandler handler = Drag;
-            if (handler != null) handler(this, EventArgs.Empty);
+            Application.Current.MainWindow.DragMove();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            EventHandler handler = CloseClick;
-            if (handler != null) handler(this, EventArgs.Empty);   
+            Application.Current.Shutdown();
         }
     }
 }

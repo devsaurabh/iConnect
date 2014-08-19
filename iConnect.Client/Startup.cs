@@ -14,7 +14,7 @@ namespace iConnect_Client
         {
             var app = new Application();
             
-            var mainWindow = new MainWindow();
+            var mainWindow = new FriendList();
             app.Run(mainWindow);
             
         }

@@ -13,7 +13,7 @@ namespace iConnect_Client
     {
         #region Private Members
 
-        private const string HOST = "http://192.168.1.90/iConnect/signalr/hubs";
+        private const string HOST = "http://saurabh-singh/iConnect/signalr/hubs";
 
         #endregion
 
@@ -136,15 +136,6 @@ namespace iConnect_Client
         }
 
         #endregion
-        
-        private void ICTitleBar_OnCloseClick(object sender, EventArgs e)
-        {
-           Application.Current.Shutdown();
-        }
-
-        private void ICTitleBar_OnDrag(object sender, EventArgs e)
-        {
-            DragMove();
-        }
+       
     }
 }
