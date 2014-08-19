@@ -14,25 +14,26 @@
     </Window.Resources>
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="380"/>
         </Grid.RowDefinitions>
         <controls:ICTitleBar Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top"></controls:ICTitleBar>
         
-        <ListBox Name="FriendListBox" Grid.Row="1" Grid.Column="0">
+        <ListBox Name="FriendListBox" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" SelectionMode="Extended">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ProgressBar Grid.Column="0" Minimum="0" Maximum="100" Value="{Binding AvatarUrl}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Alias}" />
+                    
+                    <Grid HorizontalAlignment="Stretch" Margin="0">
+                        
+                        <TextBlock Padding="10,3,10,0" Text="{Binding Alias}" Height="38" FontSize="16" VerticalAlignment="Center" Focusable="False" />
+                        
                     </Grid>
                 </DataTemplate>    
             </ListBox.ItemTemplate>
