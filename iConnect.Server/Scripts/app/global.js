@@ -7,6 +7,10 @@ $(function () {
         $('#response').append('<p>' + userName + ' connected</p>');
     };
 
+    chatHub.client.onPrivate = function (userName,message) {
+        $('#response').append('<p>' + userName + 'said:' + message + '</p>');
+    };
+
     chatHub.client.onDisconnect = function (userName) {
         $('#response').append('<p>' + userName + ' is offline</p>');
     };
