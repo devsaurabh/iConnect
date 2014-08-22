@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ImageSource x:Key="ApplicationIcon">../Images/imageIcon.ico</ImageSource>
     <ImageSource x:Key="UserDefaultImage">../Images/user_default.png</ImageSource>
+    <ImageSource x:Key="OnlineIcon">../Images/online_icon_22x22.png</ImageSource>
 
 
     <Style TargetType="{x:Type ListBoxItem}">

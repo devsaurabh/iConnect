@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using iConnect_Client.Utilities;
 using iConnect_Client.Views;
 
 namespace iConnect_Client
@@ -13,9 +10,11 @@ namespace iConnect_Client
         [STAThread()]
         static void Main()
         {
+            var chatHelper = ChatHelper.Instance;
+            chatHelper.EstablishConnection().Wait();
             var app = new Application();
             
-            var mainWindow = new FriendList();
+            var mainWindow = new MainWindow();
             app.Run(mainWindow);
             
         }

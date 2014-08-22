@@ -55,7 +55,7 @@ namespace iConnect_Client.Views
                 var text = TextBox.Text;
                 var paragraph = new Paragraph {TextAlignment = TextAlignment.Right};
                 paragraph.Inlines.Add(text);
-                await SendPrivate("sysadmin@cardinalts.com", text);
+                //await SendPrivate("sysadmin@cardinalts.com", text);
                 GetCallerParagraphBlock(text);
 
                 //MessageList.Document.Blocks.Add();
@@ -166,10 +166,7 @@ namespace iConnect_Client.Views
             Proxy.On("onLoginFail", (string msg) => MessageBox.Show(msg));
         }
 
-        private async Task SendPrivate(string userName, string message)
-        {
-            await Proxy.Invoke("SendPrivateMessage", userName, message);
-        }
+        
 
         #endregion
     }

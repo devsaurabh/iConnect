@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using iConnect.Data;
-using iConnect.Data.ApplicationServices;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect_Client.ViewModel;
 
@@ -14,16 +9,17 @@ namespace iConnect_Client.Views
     {
         #region Private Members
 
+        //private readonly UserViewModel _userViewModel;
+        
+
         #endregion
 
         #region Ctor
 
-        public FriendList()
+        public FriendList(IUserService userService,string userName)
         {
             InitializeComponent();
-            var chatContext = new ChatContext();
-            IUserService userService = new UserService(chatContext);
-            var friendListView = new FriendListViewModel(userService);
+            var friendListView = new FriendListViewModel(userService,userName);
             DataContext = friendListView;
             FriendListBox.ItemsSource = friendListView.FriendList;
         }

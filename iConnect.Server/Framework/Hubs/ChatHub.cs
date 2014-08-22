@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using iConnect.Data;
+using iConnect.Data.Framework;
 using Microsoft.AspNet.SignalR;
 
 namespace iConnect.Server.Framework.Hubs
 {
     public class ChatHub : Hub, IChatHub
     {
-        private const string SERVER_NAME = "SERVER";
         public static List<InternalUser> UserList = new List<InternalUser>();
 
         public void Connect(string userName)
@@ -19,7 +19,7 @@ namespace iConnect.Server.Framework.Hubs
                 var user = dbContext.Users.FirstOrDefault(u => u.EmailAddress == userName);
                 if (user == null)
                 {
-                    Clients.Caller.onLoginFail(ConstantStrings.INVALID_USER);
+                    Clients.Caller.onLoginFail(ExceptionConstants.InvalidUser);
                     return;
                 }
 

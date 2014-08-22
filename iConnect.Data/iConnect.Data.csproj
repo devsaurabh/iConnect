@@ -48,10 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationServices\AuthenticationService.cs" />
+    <Compile Include="ApplicationServices\Contract\IAuthenticationService.cs" />
     <Compile Include="ApplicationServices\Contract\IUserService.cs" />
     <Compile Include="ApplicationServices\UserService.cs" />
     <Compile Include="ChatContext.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
+    <Compile Include="Framework\ExceptionConstants.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

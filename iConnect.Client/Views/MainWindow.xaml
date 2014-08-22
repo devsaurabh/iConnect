@@ -2,26 +2,32 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        
-        x:Name="mainWindow" mc:Ignorable="d" x:Class="iConnect_Client.MainWindow"
-        Title="iConnect" Height="420" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="{DynamicResource ApplicationIcon}" Loaded="Window_Loaded">
+        x:Name="mainWindow" mc:Ignorable="d" x:Class="iConnect_Client.Views.MainWindow"
+        Title="iConnect" Height="420" Width="280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="{DynamicResource ApplicationIcon}" >
     <Window.Resources>
         <ImageSource x:Key="ApplicationIcon">../Images/imageIcon.ico</ImageSource>
     </Window.Resources>
     
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="AliceBlue">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>           
         </Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="40"/>
-			<RowDefinition Height="340"/>
-			<RowDefinition Height="40"/>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-        <Controls:TitleBar />
+        <Controls:TitleBar Grid.Row="0" Drag="TitleBar_OnDrag" Close="TitleBar_OnClose"/>
         
-        <ListBox Grid.Row="1" Grid.Column="0"/>
-		<TextBox x:Name="TextBox" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap"  BorderBrush="{x:Null}" FontSize="14" Padding="5" SelectionBrush="#FF44D4FF" KeyDown="textBox_KeyDown" SpellCheck.IsEnabled="True"/>
+        <StackPanel Grid.Row="1"  Margin="40">
+            <Label>UserName</Label>
+            <TextBox  Margin="20,0" Name="txtUserName" Text="{Binding UserName}"></TextBox>
+            <Label>Password</Label>
+            <PasswordBox Margin="20,0" Name="txtPassword"></PasswordBox>
+            <Button Margin="0,10,0,0" Height="30" Width="80" Content="Login" Command="{Binding LoginCommand}"
+                    CommandParameter="{Binding ElementName=txtPassword}"/>
+            <Label Name="lblErrorMessage" Content="{Binding ErrorMessage}"></Label>
+        </StackPanel>
 
     </Grid>
 </Window>
