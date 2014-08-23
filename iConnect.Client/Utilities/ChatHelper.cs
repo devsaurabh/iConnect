@@ -7,9 +7,23 @@ using Microsoft.AspNet.SignalR.Client;
 
 namespace iConnect_Client.Utilities
 {
+    public delegate void MessageEventHandler(Object sender, MessageArgs e);
     class ChatHelper
     {
-        public event EventHandler<MessageArgs> PrivateMessage;
+        public event MessageEventHandler PrivateMessage;
+        public event EventHandler LoginFailed;
+
+        protected virtual void OnLoginFailed()
+        {
+            EventHandler handler = LoginFailed;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnPrivateMessage(MessageArgs e)
+        {
+            MessageEventHandler handler = PrivateMessage;
+            if (handler != null) handler(this, e);
+        }
 
         #region Private Members
 
@@ -68,7 +82,7 @@ namespace iConnect_Client.Utilities
         {
             if (Connection.State == ConnectionState.Connected)
             {
-                Proxy.Invoke("Connect", userName).Wait();
+                Proxy.Invoke("Connect", userName);
                 IsLoggedIn = true;
             }
             else
@@ -88,22 +102,28 @@ namespace iConnect_Client.Utilities
 
         private void SubscribeToEvents()
         {
-            Proxy.On("onLoginFail", (string msg) => MessageBox.Show(msg));
-            Proxy.On("onPrivate", (string user,string msg) => PrivateReceived(user,msg));
+            Proxy.On("onLoginFail", (string msg) => OnLoginFailed());
+            Proxy.On("onPrivate", (string user,string msg) => OnPrivateMessage(new MessageArgs(user,msg)));
         }
 
-        private void PrivateReceived(string user, string msg)
-        {
-            var handler = PrivateMessage;
-            if(handler!=null)
-                handler(this,new MessageArgs{Message = msg,UserName = user});
-        }
+        //private void PrivateReceived(string user, string msg)
+        //{
+        //    var handler = PrivateMessage;
+        //    if(handler!=null)
+        //        handler(this,new MessageArgs{Message = msg,UserName = user});
+        //}
 
         #endregion
     }
 
     public class MessageArgs : EventArgs
     {
+
+        public MessageArgs(string userName,string message)
+        {
+            UserName = userName;
+            Message = message;
+        }
         public string UserName { get; set; }
         public string Message { get; set; }
     }

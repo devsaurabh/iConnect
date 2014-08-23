@@ -27,6 +27,7 @@ namespace iConnect_Client.ViewModel
     {
         private readonly IUserService _userService;
         private readonly IAuthenticationService _authenticationService;
+        private ChatHelper _chatHelper;
 
         public ICommand LoginCommand { get; internal set; }
 
@@ -38,7 +39,16 @@ namespace iConnect_Client.ViewModel
         {
             _userService = userService;
             _authenticationService = authenticationService;
+            _chatHelper = ChatHelper.Instance;
+            _chatHelper.LoginFailed += ChatHelperOnLoginFailed;
             LoginCommand = new RelayCommand<object>(LoginExecute);
+            ErrorMessage = "No errors";
+        }
+
+        private void ChatHelperOnLoginFailed(object sender, EventArgs eventArgs)
+        {
+            ErrorMessage = "Login failed";
+            RaisePropertyChanged("ErrorMessage");
         }
 
         private void LoginExecute(object passwordBox)
@@ -49,14 +59,19 @@ namespace iConnect_Client.ViewModel
                 var password = passwordControl.Password;
                 if (_authenticationService.Validate(UserName, password))
                 {
-                    var chatHelper = ChatHelper.Instance;
-                    chatHelper.Login(UserName);
+                    
+                    _chatHelper.Login(UserName);
                     var window = new FriendList(_userService,UserName);
                     var mainWindow = Application.Current.Windows[0];
                     if(mainWindow!=null)
                         mainWindow.Close();
 
                     window.Show();
+                }
+                else
+                {
+                    ErrorMessage = "Invalid Credentials";
+                    RaisePropertyChanged("ErrorMessage");
                 }
             }
 

@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Name="chatWindow" mc:Ignorable="d" x:Class="iConnect_Client.Views.ChatWindow" 
         Title="iConnect" Height="420" Width="280" ResizeMode="NoResize" WindowStartupLocation="Manual" 
-        WindowStyle="None" Icon="{DynamicResource ApplicationIcon}" Loaded="Window_Loaded" Unloaded="chatWindow_Unloaded"  Activated="chatWindow_Activated" >
+        WindowStyle="None" Icon="{DynamicResource ApplicationIcon}"  >
 
     <Window.Resources>
         <ResourceDictionary>
@@ -51,7 +51,7 @@
                         </Grid.RowDefinitions>
                         
                         <!-- First Row -->
-                        <Image Grid.Column="0" Grid.Row="0">
+                        <!--<Image Grid.Column="0" Grid.Row="0">
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Source" Value="{Binding AvtarUrl}"/>
@@ -62,10 +62,10 @@
                                     </Style.Triggers>
                                 </Style>
                             </Image.Style>
-                        </Image>
+                        </Image>-->
                         
-                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Alias}">
-                            <TextBlock.Style>
+                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Alias}"/>
+                            <!--<TextBlock.Style>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left"/>
                                     <Style.Triggers>
@@ -75,20 +75,22 @@
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
-                        </TextBlock>
+                        </TextBlock>-->
                         
-                        <Image Grid.Column="2" Grid.Row="0">
-                            <Image.Style>
+                        <Image Grid.Column="0" Grid.Row="0" Source="{Binding AvatarUrl}"/>
+                        
+                        
+                            <!--<Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Source" Value="{Binding AvtarUrl}"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="True">
+                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="False">
                                             <Setter Property="Source" Value=""/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Image.Style>
-                        </Image>
+                            </Image.Style>-->
+                        
                         
                         <!-- Second Row -->
                         <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Text="{Binding Message}">
@@ -110,7 +112,7 @@
         </ListBox>
         <TextBox x:Name="TextBox" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" TextWrapping="Wrap"  BorderBrush="{x:Null}" FontSize="14" Padding="5" SelectionBrush="#FF44D4FF" SpellCheck.IsEnabled="True" Text="hello">
             <TextBox.InputBindings>
-                <KeyBinding Key="Enter" Command="{Binding SendMessageCommand}" CommandParameter="{Binding ElementName=TextBox, Path=Text}"/>
+                <KeyBinding Key="Enter" Command="{Binding StartChatCommand}" CommandParameter="{Binding ElementName=TextBox, Path=Text}"/>
             </TextBox.InputBindings>
         </TextBox>
    </Grid>

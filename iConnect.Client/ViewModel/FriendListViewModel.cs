@@ -17,6 +17,7 @@ namespace iConnect_Client.ViewModel
         public string AvatarUrl { get; set; }
         public string UserName { get; set; }
         public string Status { get; set; }
+        public string ParentUserName { get; set; }
 
         public FriendViewModel()
         {
@@ -25,21 +26,25 @@ namespace iConnect_Client.ViewModel
 
         private void StartChatExecute(string userName)
         {
+            var clientUser = new UserViewModel
+            {
+                UserName = UserName,
+                Alias = Alias,
+                AvatarImage = AvatarUrl,
+                UserId = 0
+            };
 
-            var cw = new ChatWindow(userName);
+            var cw = new ChatWindow(ParentUserName,clientUser);
             cw.Show();
         }
     }
 
     public class FriendListViewModel : ViewModelBase
     {
-
-        //public User User { get; set; }
-
         public FriendListViewModel(IUserService userService,string userName)
         {
             FriendList = new ObservableCollection<FriendViewModel>();
-            Init(userService);
+            //Init(userService);
 
             var allUsers = userService.GetAllUsers();
             var user = allUsers.FirstOrDefault(t => t.EmailAddress == userName);
@@ -55,7 +60,8 @@ namespace iConnect_Client.ViewModel
                             ? HelperFunctions.GetDefaultImage()
                             : friend.AvatarUrl,
                     UserName = friend.EmailAddress,
-                    Status = friend.IsOnline?HelperFunctions.GetOnlineImage():null
+                    Status = friend.IsOnline?HelperFunctions.GetOnlineImage():null,
+                    ParentUserName = user.EmailAddress
                 });
             }
 
@@ -77,49 +83,7 @@ namespace iConnect_Client.ViewModel
                 //    : user.AvatarUrl;
             }
         }
-        
     }
 
-    public class MessageViewModel : ViewModelBase
-    {
-        public string Alias { get; set; }
-        public string AvatarUrl { get; set; }
-        public string UserName { get; set; }
-        public string Message { get; set; }
-        public bool IsOwnerMessage { get; set; }
-    }
-
-    public class Chat : ViewModelBase
-    {
-        private readonly ChatHelper _chatHelper;
-        private readonly UserViewModel _ownerUser;
-        private readonly UserViewModel _clientUser;
-
-        public ICommand StartChatCommand { get; internal set; }
-        
-        public ObservableCollection<MessageViewModel> Messages { get; set; }
-
-        public Chat(UserViewModel owner,UserViewModel client)
-        {
-            _ownerUser = owner;
-            _clientUser = client;
-            Messages = new ObservableCollection<MessageViewModel>();
-            StartChatCommand = new RelayCommand<string>(SendMessageExecute);
-            _chatHelper = ChatHelper.Instance;
-        }
-
-        private void SendMessageExecute(string message)
-        {
-            _chatHelper.SendPrivate(_clientUser.UserName, message).Wait();
-            var messageModel = new MessageViewModel
-            {
-                Alias = _ownerUser.Alias,
-                AvatarUrl = _ownerUser.AvatarImage,
-                IsOwnerMessage = true,
-                Message = message,
-                UserName = _ownerUser.UserName
-            };
-            Messages.Add(messageModel);
-        }
-    }
+    
 }
