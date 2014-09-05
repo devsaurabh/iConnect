@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using iConnect.Data.ApplicationServices.Contract;
 
 namespace iConnect.Data.ApplicationServices
@@ -12,10 +13,15 @@ namespace iConnect.Data.ApplicationServices
             _userService = userService;
         }
 
-        public bool Validate(string userName, string password)
+        public async Task<bool> Validate(string userName, string password)
         {
-            var user = _userService.GetUser(userName);
-            return user != null && string.Compare(password, user.Password, StringComparison.Ordinal) == 0;
+            var loginTask = Task.Run(() =>
+            {
+                var user = _userService.GetUser(userName);
+                return user != null && string.Compare(password, user.Password, StringComparison.Ordinal) == 0;
+            });
+            await loginTask;
+            return loginTask.Result;
         }
     }
 }

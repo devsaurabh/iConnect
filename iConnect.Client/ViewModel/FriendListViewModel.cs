@@ -1,11 +1,15 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect_Client.Utilities;
 using iConnect_Client.Views;
+using System.Reactive.Linq;
+using System.Reactive.Concurrency;
 
 namespace iConnect_Client.ViewModel
 {
@@ -43,46 +47,30 @@ namespace iConnect_Client.ViewModel
     {
         public FriendListViewModel(IUserService userService,string userName)
         {
-            FriendList = new ObservableCollection<FriendViewModel>();
-            //Init(userService);
+            
 
-            var allUsers = userService.GetAllUsers();
+            var allUsers = userService.GetAllUsers().ToList();
+            
             var user = allUsers.FirstOrDefault(t => t.EmailAddress == userName);
             allUsers.Remove(user);
 
-            foreach (var friend in allUsers.OrderBy(t => t.IsOnline))
-            {
-                FriendList.Add(new FriendViewModel
-                {
-                    Alias = friend.Alias,
-                    AvatarUrl =
-                        string.IsNullOrWhiteSpace(friend.AvatarUrl)
-                            ? HelperFunctions.GetDefaultImage()
-                            : friend.AvatarUrl,
-                    UserName = friend.EmailAddress,
-                    Status = friend.IsOnline?HelperFunctions.GetOnlineImage():null,
-                    ParentUserName = user.EmailAddress
-                });
-            }
 
-            
+            var users = allUsers.OrderBy(t => t.IsOnline).Select(friend => new FriendViewModel
+            {
+                Alias = friend.Alias,
+                AvatarUrl =
+                    string.IsNullOrWhiteSpace(friend.AvatarUrl)
+                        ? HelperFunctions.GetDefaultImage()
+                        : friend.AvatarUrl,
+                UserName = friend.EmailAddress,
+                Status = friend.IsOnline ? HelperFunctions.GetOnlineImage() : null,
+                ParentUserName = user.EmailAddress
+            });
+
+            FriendList = new ObservableCollection<FriendViewModel>(users);
         }
 
         public ObservableCollection<FriendViewModel> FriendList;
-
-        private void Init(IUserService userService)
-        {
-            var chatHelper = ChatHelper.Instance;
-            var user = userService.GetUser("saurabh.singh@cardinalts.com");
-            if (user != null)
-            {
-                chatHelper.Login(user.EmailAddress);
-                //_userViewModel.Alias = user.Alias;
-               // _userViewModel.AvatarImage = string.IsNullOrWhiteSpace(user.AvatarUrl)
-                //    ? HelperFunctioncs.GetDefaultImage()
-                //    : user.AvatarUrl;
-            }
-        }
     }
 
     

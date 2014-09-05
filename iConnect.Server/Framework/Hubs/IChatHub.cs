@@ -1,8 +1,10 @@
-﻿namespace iConnect.Server.Framework.Hubs
+﻿using System.Threading.Tasks;
+
+namespace iConnect.Server.Framework.Hubs
 {
     public interface IChatHub
     {
-        void Connect(string userName);
+        Task<bool> Connect(string userName);
         void Disconnect(string userName);
         void SendPrivateMessage(string userName, string message);
         void BroadcastToAll(string message);

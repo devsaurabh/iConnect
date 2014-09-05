@@ -22,6 +22,7 @@
                             <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="22" />
+                            <ColumnDefinition Width="20"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.InputBindings>
                             <MouseBinding MouseAction="LeftClick" Command="{Binding StartChatCommand}" CommandParameter="{Binding UserName}"/>

@@ -21,12 +21,26 @@
         
         <StackPanel Grid.Row="1"  Margin="40">
             <Label>UserName</Label>
-            <TextBox  Margin="20,0" Name="txtUserName" Text="{Binding UserName}"></TextBox>
+            <TextBox  Margin="20,0" Text="{Binding UserName}" IsEnabled="{Binding IsEnabled, Mode=OneWay}"></TextBox>
             <Label>Password</Label>
-            <PasswordBox Margin="20,0" Name="txtPassword"></PasswordBox>
+            <PasswordBox Margin="20,0" Name="txtPassword" IsEnabled="{Binding IsEnabled, Mode=OneWay}"></PasswordBox>
             <Button Margin="0,10,0,0" Height="30" Width="80" Content="Login" Command="{Binding LoginCommand}"
-                    CommandParameter="{Binding ElementName=txtPassword}"/>
-            <Label Content="{Binding ErrorMessage}" Height="30" Margin="0,10,0,0"></Label>
+                    CommandParameter="{Binding ElementName=txtPassword}" IsEnabled="{Binding IsEnabled, Mode=OneWay}" IsDefault="True"/>
+            <Label Content="{Binding Message}" Height="30" Margin="0,10,0,0">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsErrorMessage}" Value="true">
+                                <Setter Property="Foreground" Value="Red"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                   
+                </Label.Style>
+            </Label>
+
+            
         </StackPanel>
 
     </Grid>

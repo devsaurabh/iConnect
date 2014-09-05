@@ -1,34 +1,23 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq.Expressions;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Web.Security;
 using iConnect.Data.Framework;
 using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNet.SignalR.Client.Transports;
 
 namespace iConnect_Client.Utilities
 {
-    public delegate void MessageEventHandler(Object sender, MessageArgs e);
-    class ChatHelper
+    public class ChatHelper
     {
-        public event MessageEventHandler PrivateMessage;
-        public event EventHandler LoginFailed;
-
-        protected virtual void OnLoginFailed()
-        {
-            EventHandler handler = LoginFailed;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnPrivateMessage(MessageArgs e)
-        {
-            MessageEventHandler handler = PrivateMessage;
-            if (handler != null) handler(this, e);
-        }
-
         #region Private Members
 
         private static readonly Lazy<ChatHelper> PrivateInstance = new Lazy<ChatHelper>(() => new ChatHelper());
         private readonly string _chatServerAddress;
+        private CancellationTokenSource _cancellationToken;
 
         #endregion
 
@@ -52,48 +41,84 @@ namespace iConnect_Client.Utilities
 
         public bool IsLoggedIn { get; private set; }
 
+        public event EventHandler<MessageArgs> PrivateMessage;
+
+        public event EventHandler LoginFailed;
+
+        public event EventHandler<ConnectionArgs> ConnectionStateChanged;
+
         #endregion
 
         #region Public Methods
 
         public static ChatHelper Instance
         {
-            get
-            {
-                return PrivateInstance.Value;
-            }
+            get { return PrivateInstance.Value; }
         }
 
         public async Task EstablishConnection()
         {
-            if (Connection==null || Connection.State == ConnectionState.Disconnected)
-            {
-
-                Connection = new HubConnection(Host);
-                Proxy = Connection.CreateHubProxy("ChatHub");
-                SubscribeToEvents();
-                await Connection.Start();
-                
-            }
-            
+            if (Connection != null && Connection.State == ConnectionState.Connected) return;
+            Connection = new HubConnection(Host);
+        
+            Proxy = Connection.CreateHubProxy("ChatHub");
+            SubscribeToEvents();
+            await Connection.Start(new LongPollingTransport());
+            //Connection.Transport  = ;
         }
 
-        public void Login(string userName)
+        public async Task Login(string userName)
         {
+            IsLoggedIn = true;
             if (Connection.State == ConnectionState.Connected)
             {
-                Proxy.Invoke("Connect", userName);
-                IsLoggedIn = true;
+                try
+                {
+                    await Proxy.Invoke("Connect", userName);
+                    //IsLoggedIn = true;
+                }
+                catch (Exception)
+                {
+                    IsLoggedIn = false;
+                }
             }
             else
             {
+                IsLoggedIn = false;
                 throw new Exception(ExceptionConstants.NotConnected);
             }
         }
 
-        public async Task SendPrivate(string userName, string message)
+        public void SendPrivate(string userName, string message)
         {
-            await Proxy.Invoke("SendPrivateMessage", userName, message);
+            Proxy.Invoke("SendPrivateMessage", userName, message).Wait();
+        }
+
+        private static bool AuthenticateUser(string user, string password, out Cookie authCookie)
+        {
+            var request = WebRequest.Create("https://www.contoso.com/RemoteLogin") as HttpWebRequest;
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.CookieContainer = new CookieContainer();
+
+            var credentials = "UserName=" + user + "&Password=" + password;
+            var bytes = System.Text.Encoding.UTF8.GetBytes(credentials);
+            request.ContentLength = bytes.Length;
+            using (var requestStream = request.GetRequestStream())
+            {
+                requestStream.Write(bytes, 0, bytes.Length);
+            }
+
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                authCookie = response.Cookies[FormsAuthentication.FormsCookieName];
+            }
+
+            if (authCookie != null)
+            {
+                return true;
+            }
+            return false;
         }
         
         #endregion
@@ -102,23 +127,22 @@ namespace iConnect_Client.Utilities
 
         private void SubscribeToEvents()
         {
-            Proxy.On("onLoginFail", (string msg) => OnLoginFailed());
-            Proxy.On("onPrivate", (string user,string msg) => OnPrivateMessage(new MessageArgs(user,msg)));
+            Proxy.On("onLoginFail", (string msg) => OnLoginFailed(msg));
+            Proxy.On("onPrivate", (string user, string msg) => PrivateMessage.Invoke(this, new MessageArgs(user, msg)));
+            //Connection.StateChanged +=
+            //    change => ConnectionStateChanged.Invoke(this, new ConnectionArgs {State = change.NewState});
         }
 
-        //private void PrivateReceived(string user, string msg)
-        //{
-        //    var handler = PrivateMessage;
-        //    if(handler!=null)
-        //        handler(this,new MessageArgs{Message = msg,UserName = user});
-        //}
+        private void OnLoginFailed(string msg)
+        {
+            IsLoggedIn = false;
+        }
 
         #endregion
     }
 
     public class MessageArgs : EventArgs
     {
-
         public MessageArgs(string userName,string message)
         {
             UserName = userName;
@@ -127,4 +151,12 @@ namespace iConnect_Client.Utilities
         public string UserName { get; set; }
         public string Message { get; set; }
     }
+
+    public class ConnectionArgs : EventArgs
+    {
+        public ConnectionState State;
+    }
+
+   
+    
 }

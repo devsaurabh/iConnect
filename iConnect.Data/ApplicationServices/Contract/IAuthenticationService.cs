@@ -1,7 +1,9 @@
-﻿namespace iConnect.Data.ApplicationServices.Contract
+﻿using System.Threading.Tasks;
+
+namespace iConnect.Data.ApplicationServices.Contract
 {
     public interface IAuthenticationService
     {
-        bool Validate(string userName, string password);
+        Task<bool> Validate(string userName, string password);
     }
 }

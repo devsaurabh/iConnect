@@ -19,7 +19,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="340"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
@@ -40,7 +40,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2" Height="38">
-                        <Grid.ColumnDefinitions>
+                        <!--<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
@@ -48,7 +48,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
-                        </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>-->
                         
                         <!-- First Row -->
                         <!--<Image Grid.Column="0" Grid.Row="0">
@@ -63,6 +63,29 @@
                                 </Style>
                             </Image.Style>
                         </Image>-->
+                        
+                        <!-- Area for Image 
+                             If the message belongs to the owner the show the image on the left side 
+                             else show it on the right side
+                        -->
+                        
+                        <DockPanel LastChildFill="True">
+                            <Image Source="{Binding AvatarUrl}">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="DockPanel.Dock" Value="Left"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOwnerMessage}" Value="false">
+                                                <Setter Property="DockPanel.Dock" Value="Right"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </DockPanel>
+                       
+                        
                         
                         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Alias}"/>
                             <!--<TextBlock.Style>
@@ -93,13 +116,13 @@
                         
                         
                         <!-- Second Row -->
-                        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Text="{Binding Message}">
+                        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Text="{Binding Message}" TextWrapping="Wrap">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsOwnerMessage}" Value="True">
-                                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                                            <Setter Property="HorizontalAlignment" Value="Left"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

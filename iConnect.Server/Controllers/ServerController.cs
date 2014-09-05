@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 using iConnect.Data;
 using iConnect.Data.ApplicationServices;
 using iConnect.Data.ApplicationServices.Contract;
@@ -25,7 +26,8 @@ namespace iConnect.Server.Controllers
 
         public ActionResult GetUserList()
         {
-            var model = _userService.GetAllUsers().Select(usr => new UserViewModel
+            var allUsers = _userService.GetAllUsers();
+            var model = allUsers.Select(usr => new UserViewModel
             {
                 UserId = usr.UserId,
                 UserName = usr.EmailAddress,
@@ -60,6 +62,18 @@ namespace iConnect.Server.Controllers
             };
             _userService.CreateUser(user);
             return RedirectToAction("GetUserList");
+        }
+
+        [HttpPost]
+        public void ValidateUser()
+        {
+            string username = Request["UserName"];
+            string password = Request["Password"];
+            bool result = Membership.ValidateUser(username, password);
+            if (result)
+            {
+                FormsAuthentication.SetAuthCookie(username, false);
+            }
         }
 
     }

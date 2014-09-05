@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect.Data.Model;
 
@@ -25,14 +26,36 @@ namespace iConnect.Data.ApplicationServices
 
         #region Public Methods
 
-        public List<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return _chatContext.Users.Where(usr => usr.IsActive).ToList();
+            var task = Task.Factory.StartNew(() => _chatContext.Users.Where(usr => usr.IsActive));
+            await task;
+            return task.Result;
+        }
+
+        IEnumerable<User> IUserService.GetAllUsers()
+        {
+            return _chatContext.Users.Where(usr => usr.IsActive);
+        }
+
+        public async Task<User> GetUserAsync(string userName)
+        {
+            var task =
+                Task.Factory.StartNew(() => GetUser(userName));
+            await task;
+            return task.Result;
         }
 
         public User GetUser(string userName)
         {
             return _chatContext.Users.FirstOrDefault(usr => usr.EmailAddress == userName);
+        }
+
+        public async Task<bool> MarkActiveAsync(string userName)
+        {
+            var task = Task.Factory.StartNew(()=>MarkActive(userName));
+            await task;
+            return task.Result;
         }
 
         public bool MarkActive(string userName)
@@ -44,6 +67,13 @@ namespace iConnect.Data.ApplicationServices
             return true;
         }
 
+        public async Task<bool> MarkInactiveAsync(string userName)
+        {
+            var task = Task.Factory.StartNew(() => MarkInactive(userName));
+            await task;
+            return task.Result;
+        }
+
         public bool MarkInactive(string userName)
         {
             var user = _chatContext.Users.FirstOrDefault(usr => usr.EmailAddress == userName);
@@ -51,6 +81,13 @@ namespace iConnect.Data.ApplicationServices
             user.IsActive = false;
             _chatContext.SaveChanges();
             return true;
+        }
+
+        public async Task<bool> MarkOnlineAsync(string userName)
+        {
+            var task = Task.Factory.StartNew(() => MarkOnline(userName));
+            await task;
+            return task.Result;
         }
 
         public bool MarkOnline(string userName)
@@ -62,6 +99,13 @@ namespace iConnect.Data.ApplicationServices
             return true;
         }
 
+        public async Task<bool> MarkOfflineAsync(string userName)
+        {
+            var task = Task.Factory.StartNew(() => MarkOffline(userName));
+            await task;
+            return task.Result;
+        }
+
         public bool MarkOffline(string userName)
         {
             var user = _chatContext.Users.FirstOrDefault(usr => usr.EmailAddress == userName);
@@ -69,6 +113,12 @@ namespace iConnect.Data.ApplicationServices
             user.IsOnline = false;
             _chatContext.SaveChanges();
             return true;
+        }
+
+        public async Task CreateUserAsync(User user)
+        {
+            var task = Task.Factory.StartNew(() => CreateUser(user));
+            await task;
         }
 
         public void CreateUser(User user)
@@ -83,6 +133,11 @@ namespace iConnect.Data.ApplicationServices
                 _chatContext.SaveChanges();
             }
 
+        }
+
+        public Task DeleteUserAsync(string userName)
+        {
+            throw new NotImplementedException();
         }
 
         public void DeleteUser(string userName)

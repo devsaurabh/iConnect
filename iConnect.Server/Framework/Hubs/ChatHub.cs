@@ -11,7 +11,7 @@ namespace iConnect.Server.Framework.Hubs
     {
         public static List<InternalUser> UserList = new List<InternalUser>();
 
-        public void Connect(string userName)
+        public async Task<bool> Connect(string userName)
         {
             var id = Context.ConnectionId;
             using (var dbContext = new ChatContext())
@@ -20,14 +20,15 @@ namespace iConnect.Server.Framework.Hubs
                 if (user == null)
                 {
                     Clients.Caller.onLoginFail(ExceptionConstants.InvalidUser);
-                    return;
+                    return false;
                 }
 
                 user.IsOnline = true;
                 dbContext.SaveChanges();
                 UserList.Remove(UserList.FirstOrDefault(u => u.UserName == userName));
                 UserList.Add(new InternalUser { ConnectionId = id, UserName = userName });
-                Clients.All.onConnect(userName);
+                await Clients.All.onConnect(userName);
+                return true;
             }
         }
 
