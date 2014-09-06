@@ -60,7 +60,7 @@ namespace iConnect_Client.ViewModel
                 Alias = friend.Alias,
                 AvatarUrl =
                     string.IsNullOrWhiteSpace(friend.AvatarUrl)
-                        ? HelperFunctions.GetDefaultImage()
+                        ? HelperFunctions.GetDefaultImage(friend.EmailAddress)
                         : friend.AvatarUrl,
                 UserName = friend.EmailAddress,
                 Status = friend.IsOnline ? HelperFunctions.GetOnlineImage() : null,

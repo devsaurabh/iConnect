@@ -45,15 +45,14 @@ namespace iConnect_Client.ViewModel
                 UserName = user.EmailAddress,
                 Alias = user.Alias,
                 AvatarImage =
-                    string.IsNullOrWhiteSpace(user.AvatarUrl) ? HelperFunctions.GetDefaultImage() : user.AvatarUrl,
+                    string.IsNullOrWhiteSpace(user.AvatarUrl) ? HelperFunctions.GetDefaultImage(user.EmailAddress) : user.AvatarUrl,
                 UserId = user.UserId
             };
             _clientUser = client;
-            Messages = GetList();
+            Messages = new ObservableCollection<MessageViewModel>();
             StartChatCommand = new RelayCommand<string>(SendMessageExecute);
             _chatHelper = ChatHelper.Instance;
             _chatHelper.PrivateMessage += ChatHelperOnPrivateMessage;
-
         }
 
         #endregion
@@ -103,7 +102,7 @@ namespace iConnect_Client.ViewModel
                 new MessageViewModel
                 {
                     Alias = "Saurabh",
-                    AvatarUrl = Utilities.HelperFunctions.GetDefaultImage(),
+                    AvatarUrl = Utilities.HelperFunctions.GetDefaultImage("saurabh.singh@cardinalts.com"),
                     IsOwnerMessage = true,
                     Message = "Greetings",
                     UserName = "saurabh.singh@cardinalts.com"
@@ -111,7 +110,7 @@ namespace iConnect_Client.ViewModel
                 new MessageViewModel
                 {
                     Alias = "Manpreet",
-                    AvatarUrl = Utilities.HelperFunctions.GetDefaultImage(),
+                    AvatarUrl = Utilities.HelperFunctions.GetDefaultImage("manpreet.singh@cardinalts.com"),
                     IsOwnerMessage = false,
                     Message = "Greetings",
                     UserName = "manpreet.singh@cardinalts.com"

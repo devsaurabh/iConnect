@@ -24,112 +24,62 @@
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Controls:TitleBar Name="TitleBar" Close="OnClose" Drag="OnDrag" />
-        <!--<FlowDocumentScrollViewer Grid.Row="1" Grid.Column="0" x:Name="MessageList" Margin="0,0,0,0"  VerticalScrollBarVisibility="Auto" FontSize="13.333" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <FlowDocument>
-                <Table Name="ItemsTable" CellSpacing="2" BorderThickness="0"  >
-                    <Table.Columns>
-                        <TableColumn Width="*"/>
-                    </Table.Columns>
-                    <TableRowGroup Name="RowGroup" FontSize="12" FontFamily="Arial">
-
-                    </TableRowGroup>
-                </Table>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>-->
-        <ListBox Grid.Row="1" Name="lstChat">
+     
+        <ListBox Grid.Row="1" Name="lstChat" HorizontalContentAlignment="Stretch"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="10">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,2" Height="38">
-                        <!--<Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="40" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>-->
-                        
-                        <!-- First Row -->
-                        <!--<Image Grid.Column="0" Grid.Row="0">
-                            <Image.Style>
-                                <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{Binding AvtarUrl}"/>
+                        <DockPanel LastChildFill="True">
+
+                        <TextBlock Text="{Binding Message}" DockPanel.Dock="Bottom" TextWrapping="WrapWithOverflow">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="TextAlignment" Value="Right"/>
+                                    <Setter Property="Margin" Value="0,0,42,0"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="True">
-                                            <Setter Property="Source" Value=""/>
+                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="false">
+                                            <Setter Property="TextAlignment" Value="Left"/>
+                                            <Setter Property="Margin" Value="42,0,0,0"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Image.Style>
-                        </Image>-->
-                        
-                        <!-- Area for Image 
-                             If the message belongs to the owner the show the image on the left side 
-                             else show it on the right side
-                        -->
-                        
-                        <DockPanel LastChildFill="True">
-                            <Image Source="{Binding AvatarUrl}">
+                            </TextBlock.Style>
+                        </TextBlock>
+                               
+                            <Image Source="{Binding AvatarUrl}" Width="32">
                                 <Image.Style>
                                     <Style TargetType="Image">
-                                        <Setter Property="DockPanel.Dock" Value="Left"/>
+                                        <Setter Property="DockPanel.Dock" Value="Right"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsOwnerMessage}" Value="false">
-                                                <Setter Property="DockPanel.Dock" Value="Right"/>
+                                                <Setter Property="DockPanel.Dock" Value="Left"/>
                                             </DataTrigger>
                                         </Style.Triggers>
 
                                     </Style>
                                 </Image.Style>
                             </Image>
+                            <TextBlock Text="{Binding Alias}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="DockPanel.Dock" Value="Left"/>
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="Margin" Value="0,10,10,0"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOwnerMessage}" Value="false">
+                                                <Setter Property="DockPanel.Dock" Value="Right"/>
+                                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                <Setter Property="Margin" Value="10,10,0,0"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            
                         </DockPanel>
                        
                         
                         
-                        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Alias}"/>
-                            <!--<TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="True">
-                                            <Setter Property="HorizontalAlignment" Value="Right"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>-->
-                        
-                        <Image Grid.Column="0" Grid.Row="0" Source="{Binding AvatarUrl}"/>
-                        
-                        
-                            <!--<Image.Style>
-                                <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{Binding AvtarUrl}"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="False">
-                                            <Setter Property="Source" Value=""/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>-->
-                        
-                        
-                        <!-- Second Row -->
-                        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Text="{Binding Message}" TextWrapping="Wrap">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Right"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOwnerMessage}" Value="True">
-                                            <Setter Property="HorizontalAlignment" Value="Left"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
                        
-                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

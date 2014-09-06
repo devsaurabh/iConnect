@@ -14,7 +14,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Controls:TitleBar Grid.Row="0" Drag="OnDrag" Close="OnClose" />
-        <ListBox Name="FriendListBox"  Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" BorderThickness="0"  >
+        <ListBox Name="FriendListBox"   Grid.Row="1" Grid.Column="0" 
+                 HorizontalContentAlignment="Stretch" BorderThickness="0" ItemContainerStyle="{DynamicResource FriendList}" >
+            
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2" Height="38">

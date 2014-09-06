@@ -4,26 +4,19 @@
     <ImageSource x:Key="UserDefaultImage">../Images/user_default.png</ImageSource>
     <ImageSource x:Key="OnlineIcon">../Images/online_icon_22x22.png</ImageSource>
 
-
-    <Style TargetType="{x:Type ListBoxItem}">
+    
+        <Style x:Key="FriendList" TargetType="ListBoxItem">
+            
         <Setter Property="Foreground" Value="#58290a" />
         <Setter Property="FontFamily" Value="Lucida Console" />
         <Setter Property="Background">
             <Setter.Value>
-                <LinearGradientBrush
-StartPoint="0.5,0" EndPoint="0.5,1"
-SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" >
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1" SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" >
                     <GradientStop Color="#FFD1D1D1" Offset="0" />
                     <GradientStop Color="#FFFFFFFF" Offset="0.25" />
                     <GradientStop Color="#FFFFFFFF" Offset="0.75" />
                     <GradientStop Color="#FFD1D1D1" Offset="1" />
-                    
-                    
                 </LinearGradientBrush>
-
-
-
-
             </Setter.Value>
         </Setter>
         <Style.Triggers>
@@ -41,4 +34,6 @@ SpreadMethod="Pad" ColorInterpolationMode="SRgbLinearInterpolation" >
             </Trigger>
         </Style.Triggers>
     </Style>
+
+   
 </ResourceDictionary>
