@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -26,6 +24,8 @@ namespace iConnect_Client.ViewModel
         #region Commands
 
         public ICommand StartChatCommand { get; internal set; }
+        public ICommand CloseCommand { get; internal set; }
+        public ICommand DragCommand { get; internal set; }
 
         #endregion
 
@@ -51,8 +51,20 @@ namespace iConnect_Client.ViewModel
             _clientUser = client;
             Messages = new ObservableCollection<MessageViewModel>();
             StartChatCommand = new RelayCommand<string>(SendMessageExecute);
+            DragCommand = new RelayCommand(DragExecute);
+            CloseCommand = new RelayCommand(CloseExecute);
             _chatHelper = ChatHelper.Instance;
             _chatHelper.PrivateMessage += ChatHelperOnPrivateMessage;
+        }
+
+        private void CloseExecute()
+        {
+            
+        }
+
+        private void DragExecute()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -78,7 +90,7 @@ namespace iConnect_Client.ViewModel
 
         private void SendMessageExecute(string message)
         {
-            _chatHelper.SendPrivate(_clientUser.UserName, message);
+            _chatHelper.SendPrivateAsync(_clientUser.UserName, message);
             var messageModel = new MessageViewModel
             {
                 Alias = _ownerUser.Alias,

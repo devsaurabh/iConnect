@@ -23,7 +23,7 @@
             <RowDefinition Height="340"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Controls:TitleBar Name="TitleBar" Close="OnClose" Drag="OnDrag" />
+        <Controls:TitleBar Name="TitleBar" Close="{Binding CloseCommand}" Drag="{Binding OnDrag}" />
      
         <ListBox Grid.Row="1" Name="lstChat" HorizontalContentAlignment="Stretch"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="10">
             <ListBox.ItemTemplate>

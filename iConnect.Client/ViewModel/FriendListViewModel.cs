@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect_Client.Utilities;
 using iConnect_Client.Views;
-using System.Reactive.Linq;
-using System.Reactive.Concurrency;
 
 namespace iConnect_Client.ViewModel
 {
@@ -37,9 +34,9 @@ namespace iConnect_Client.ViewModel
                 AvatarImage = AvatarUrl,
                 UserId = 0
             };
-
-            var cw = new ChatWindow(ParentUserName,clientUser);
-            cw.Show();
+           
+            WindowFactory.OpenChatWindow(ParentUserName,clientUser);
+           
         }
     }
 
@@ -47,8 +44,6 @@ namespace iConnect_Client.ViewModel
     {
         public FriendListViewModel(IUserService userService,string userName)
         {
-            
-
             var allUsers = userService.GetAllUsers().ToList();
             
             var user = allUsers.FirstOrDefault(t => t.EmailAddress == userName);

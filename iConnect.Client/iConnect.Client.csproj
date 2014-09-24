@@ -99,6 +99,7 @@
     </ApplicationDefinition>
     <Compile Include="Utilities\ChatHelper.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
+    <Compile Include="Utilities\WindowFactory.cs" />
     <Compile Include="ViewModel\ChatViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\UserViewModel.cs" />

@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Command;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect_Client.Utilities;
 using iConnect_Client.Views;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace iConnect_Client.ViewModel
 {
@@ -79,6 +80,7 @@ namespace iConnect_Client.ViewModel
             IsEnabled = false;
             Message = string.Empty;
             IsErrorMessage = false;
+            Message = "Validating Credentials";
 
             var passwordControl = (passwordBox as PasswordBox);
             if (passwordControl != null)
@@ -87,10 +89,11 @@ namespace iConnect_Client.ViewModel
                 var validationResult = await _authenticationService.Validate(UserName, password);
                 if (validationResult)
                 {
-                    Message = "Connecting to server";
-                    await _chatHelper.EstablishConnection();
+                    if(_chatHelper.Connection.State!=ConnectionState.Connected)
+                        await _chatHelper.EstablishConnectionAsync(); 
+                   
                     Message = "Signing In";
-                    await _chatHelper.Login(UserName);
+                    await _chatHelper.LoginAsync(UserName);
                     if (_chatHelper.IsLoggedIn)
                     {
                         var window = new FriendList(_userService, UserName);

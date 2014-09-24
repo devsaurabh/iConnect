@@ -43,6 +43,12 @@ namespace iConnect_Client.Utilities
 
         public event EventHandler<MessageArgs> PrivateMessage;
 
+        protected async virtual void OnPrivateMessage(MessageArgs e)
+        {
+            EventHandler<MessageArgs> handler = PrivateMessage;
+            if (handler != null) handler(this, e);
+        }
+
         public event EventHandler LoginFailed;
 
         public event EventHandler<ConnectionArgs> ConnectionStateChanged;
@@ -56,7 +62,7 @@ namespace iConnect_Client.Utilities
             get { return PrivateInstance.Value; }
         }
 
-        public async Task EstablishConnection()
+        public async Task EstablishConnectionAsync()
         {
             if (Connection != null && Connection.State == ConnectionState.Connected) return;
             Connection = new HubConnection(Host);
@@ -67,7 +73,7 @@ namespace iConnect_Client.Utilities
             //Connection.Transport  = ;
         }
 
-        public async Task Login(string userName)
+        public async Task LoginAsync(string userName)
         {
             IsLoggedIn = true;
             if (Connection.State == ConnectionState.Connected)
@@ -89,9 +95,9 @@ namespace iConnect_Client.Utilities
             }
         }
 
-        public void SendPrivate(string userName, string message)
+        public async Task SendPrivateAsync(string userName, string message)
         {
-            Proxy.Invoke("SendPrivateMessage", userName, message).Wait();
+            await Proxy.Invoke("SendPrivateMessage", userName, message);
         }
 
         private static bool AuthenticateUser(string user, string password, out Cookie authCookie)

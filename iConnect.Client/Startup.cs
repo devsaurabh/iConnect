@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using iConnect_Client.Utilities;
 using iConnect_Client.Views;
 
 namespace iConnect_Client
@@ -22,7 +23,9 @@ namespace iConnect_Client
             {
                 var app = new Application();
                 var mainWindow = new MainWindow();
-                app.Run(mainWindow);    
+                ChatHelper.Instance.EstablishConnectionAsync();
+                app.Run(mainWindow);
+                
             }
             
         }
