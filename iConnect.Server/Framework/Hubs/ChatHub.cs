@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using iConnect.Data;
 using iConnect.Data.Framework;
 using Microsoft.AspNet.SignalR;
+using WebMatrix.WebData;
 
 namespace iConnect.Server.Framework.Hubs
 {
@@ -11,24 +12,32 @@ namespace iConnect.Server.Framework.Hubs
     {
         public static List<InternalUser> UserList = new List<InternalUser>();
 
-        public async Task<bool> Connect(string userName)
+        public void Connect(string userName)
         {
             var id = Context.ConnectionId;
+            
+
             using (var dbContext = new ChatContext())
             {
-                var user = dbContext.Users.FirstOrDefault(u => u.EmailAddress == userName);
-                if (user == null)
+                var matchingUser = UserList.FirstOrDefault(u => u.ConnectionId == id);
+                
+
+                if (matchingUser == null)
                 {
-                    Clients.Caller.onLoginFail(ExceptionConstants.InvalidUser);
-                    return false;
+                    var user = dbContext.Users.FirstOrDefault(u => u.EmailAddress == userName);
+                    //UserList.Remove(UserList.FirstOrDefault(u => u.UserName == userName));
+                    if (user != null)
+                    {
+                        user.IsOnline = true;
+                        dbContext.SaveChanges();
+                        //UserList.Remove(UserList.FirstOrDefault(u => u.UserName == userName));
+                        UserList.Add(new InternalUser { ConnectionId = id, UserName = userName, Alias = user.Alias });
+                        Clients.AllExcept(new[] { id }).onConnect(userName);
+                    }
                 }
 
-                user.IsOnline = true;
-                dbContext.SaveChanges();
-                UserList.Remove(UserList.FirstOrDefault(u => u.UserName == userName));
-                UserList.Add(new InternalUser { ConnectionId = id, UserName = userName });
-                await Clients.All.onConnect(userName);
-                return true;
+               
+                
             }
         }
 
@@ -43,10 +52,12 @@ namespace iConnect.Server.Framework.Hubs
                     var user = dbContext.Users.FirstOrDefault(u => u.EmailAddress == matchingUser.UserName);
                     if (user != null)
                     {
+                        
                         user.IsOnline = false;
                         dbContext.SaveChanges();
                         UserList.Remove(matchingUser);
-                        Clients.All.onDisconnect(matchingUser.UserName);
+                        //WebSecurity.Logout();
+                        Clients.AllExcept(new[] {id}).onDisconnect(matchingUser.UserName);
                     }
                 }
             }
@@ -67,7 +78,8 @@ namespace iConnect.Server.Framework.Hubs
                         user.IsOnline = false;
                         dbContext.SaveChanges();
                         UserList.Remove(matchingUser);
-                        Clients.All.onDisconnect(matchingUser.UserName);
+                        WebSecurity.Logout();
+                        Clients.AllExcept(new[] { id }).onDisconnect(matchingUser.UserName);
                     }
                 }
             }
@@ -83,9 +95,10 @@ namespace iConnect.Server.Framework.Hubs
 
         public void BroadcastToAll(string message)
         {
+            var id = Context.ConnectionId;
             var fromUser = UserList.FirstOrDefault(u => u.ConnectionId == Context.ConnectionId);
             if (fromUser != null)
-                Clients.All.onBroadcast(fromUser.UserName, message);
+                Clients.AllExcept(new[] { id }).onBroadcast(fromUser.UserName, message, fromUser.Alias);
         }
 
         public void PingUser(string userName)
@@ -96,9 +109,17 @@ namespace iConnect.Server.Framework.Hubs
                 Clients.Client(toUser.ConnectionId).onPing();
         }
 
+
+        public async Task<bool> Update()
+        {
+           await Clients.All.onUpdate();
+           return true;
+        }
+
         public class InternalUser
         {
             public string UserName { get; set; }
+            public string Alias { get; set; }
             public string ConnectionId { get; set; }
         }
     }

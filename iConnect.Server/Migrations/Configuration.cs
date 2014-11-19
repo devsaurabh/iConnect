@@ -15,34 +15,33 @@ namespace iConnect.Server.Migrations
 
         protected override void Seed(ChatContext context)
         {
-            var adminUser = new User
-            {
-                FirstName = "System",
-                LastName = "Admin",
-                EmailAddress = "sysadmin@cardinalts.com",
-                UserType = UserType.Admin,
-                Alias = "SERVER",
-                IsActive = true,
-                IsOnline = true,
-                Password = "123456",
-                CreatedOn = DateTime.Now,
-                ModifiedOn = DateTime.Now
-            };
+        //    var adminUser = new User
+        //    {
+        //        FirstName = "System",
+        //        LastName = "Admin",
+        //        EmailAddress = "sysadmin@cardinalts.com",
+        //        UserType = UserType.Admin.ToString,
+        //        Alias = "SERVER",
+        //        IsActive = true,
+        //        IsOnline = true,                
+        //        CreatedOn = DateTime.Now,
+        //        ModifiedOn = DateTime.Now
+        //    };
 
-            var normalUser = new User
-            {
-                FirstName = "Saurabh",
-                LastName = "Singh",
-                EmailAddress = "saurabh.singh@cardinalts.com",
-                UserType = UserType.Normal,
-                Alias = "Saurabh",
-                IsActive = true,
-                Password = "123456",
-                CreatedOn = DateTime.Now,
-                ModifiedOn = DateTime.Now
-            };
-            context.Users.AddOrUpdate(adminUser);
-            context.Users.AddOrUpdate(normalUser);
+        //    var normalUser = new User
+        //    {
+        //        FirstName = "Saurabh",
+        //        LastName = "Singh",
+        //        EmailAddress = "saurabh.singh@cardinalts.com",
+        //        UserType = UserType.Normal,
+        //        Alias = "Saurabh",
+        //        IsActive = true,
+        //        Password = "123456",
+        //        CreatedOn = DateTime.Now,
+        //        ModifiedOn = DateTime.Now
+        //    };
+        //    context.Users.AddOrUpdate(adminUser);
+        //    context.Users.AddOrUpdate(normalUser);
         }
     }
 }

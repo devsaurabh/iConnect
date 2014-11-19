@@ -12,6 +12,12 @@ namespace iConnect.Server
                         "~/Scripts/jquery.signalR-2.1.1.js"
                         ));
 
+            bundles.Add(new ScriptBundle("~/bundles/chatHub").Include(
+                        "~/Scripts/app/global.js",
+                        //"~/Scripts/app/chatClient.js",
+                        "~/Scripts/app/chatServer.js"
+                        ));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
 

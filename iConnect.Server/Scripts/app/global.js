@@ -1,25 +1,38 @@
-﻿// Declare a proxy to reference the hub. 
+﻿var loggedInUser = "";
+var chatHub = $.connection.chatHub;
+var connection;
+var chatServer;
+
+// Common Methods
 $(function () {
-
-    var chatHub = $.connection.chatHub;
-
-    chatHub.client.onConnect = function (userName) {
-        $('#response').append('<p>' + userName + ' connected</p>');
-    };
-
-    chatHub.client.onPrivate = function (userName,message) {
-        $('#response').append('<p>' + userName + 'said:' + message + '</p>');
-    };
-
-    chatHub.client.onDisconnect = function (userName) {
-        $('#response').append('<p>' + userName + ' is offline</p>');
-    };
- 
-    $.connection.hub.start().done(function () {
-      
-        chatHub.server.connect("sysadmin@cardinalts.com");
-    });
+    connection = $.connection.hub.start();
+    chatServer = new chatHubServer(connection);    
 });
+
+function markOnline(userName) {
+    var user = $(".list-group-item").find("[data-user='" + userName + "']");
+    user.addClass("label label-success");
+    user.html("Online");
+}
+
+function markOffline(userName) {
+    var user = $(".list-group-item").find("[data-user='" + userName + "']");
+    user.removeClass("label label-success");
+    user.html("");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

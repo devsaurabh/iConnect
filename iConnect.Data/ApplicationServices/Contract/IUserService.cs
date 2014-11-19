@@ -24,8 +24,10 @@ namespace iConnect.Data.ApplicationServices.Contract
         Task<bool> MarkOfflineAsync(string userName);
         bool MarkOffline(string userName);
 
-        Task CreateUserAsync(User user);
-        void CreateUser(User user);
+        //Task CreateUserAsync(User user);
+        //void CreateUser(User user);
+
+        void UpdateUser(User user);
 
         Task DeleteUserAsync(string userName);
         void DeleteUser(string userName);

@@ -9,13 +9,7 @@ namespace iConnect.Data.Configurations
         public UserConfiguration()
         {
             HasKey(u => u.UserId);
-            Property(u => u.UserId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(u => u.FirstName).IsRequired();
-            Property(u => u.LastName).IsRequired();
-            Property(u => u.EmailAddress).IsRequired();
-            Property(u => u.MiddleName).IsOptional();
-            Property(u => u.Password).IsRequired();
-            Property(u => u.Alias).IsRequired();
+            Property(u => u.UserId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);            
             HasMany(u => u.Messages).WithRequired(msg => msg.User).HasForeignKey(msg => msg.FromUserId);
         }
     }

@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "HeaderLayout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_Header")
+<br />
+<div class="container">
+    <div class="row" id="childContainer">
+        @RenderBody()
+    </div>
+</div>
+
+@Html.Partial("_Footer")
+
+@section scripts {
+    @RenderSection("scripts",required: false)
+}

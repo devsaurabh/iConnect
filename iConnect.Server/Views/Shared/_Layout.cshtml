@@ -12,29 +12,12 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
     <body>
-        
-        
-        @Html.Partial("_Header")
-        <br/>
-        <div class="container">
-            <div class="row">
-            @RenderBody()    
-            </div>
-            
-        </div>
-        
-        @Html.Partial("_Footer")
-
+        @RenderBody()      
+         
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         <script src="~/signalr/hubs"></script>
+        @Scripts.Render("~/bundles/chatHub")
         @RenderSection("scripts", required: false)
-        <script type="text/javascript">
-            $(function () {
-                var containerHeight = $(window).height() - $("#header").height()-66;
-                $("#client-list").css('height', containerHeight + 'px');
-                $("#chat-box").css('height', containerHeight-95 + 'px');
-            });
-        </script>
     </body>
 </html>

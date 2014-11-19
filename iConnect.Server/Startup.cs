@@ -8,7 +8,6 @@ namespace iConnect.Server
         public void Configuration(IAppBuilder app)
         {
             var hubConfig = new HubConfiguration {EnableDetailedErrors = true};
-            //hubConfig.Resolver = 
             app.MapSignalR(hubConfig);
         }
     }

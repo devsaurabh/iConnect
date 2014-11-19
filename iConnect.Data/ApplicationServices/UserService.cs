@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect.Data.Model;
+using WebMatrix.WebData;
+using System.Web.Security;
 
 namespace iConnect.Data.ApplicationServices
 {
@@ -28,14 +30,14 @@ namespace iConnect.Data.ApplicationServices
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            var task = Task.Factory.StartNew(() => _chatContext.Users.Where(usr => usr.IsActive));
+            var task = Task.Factory.StartNew(() => _chatContext.Users.Where(usr => usr.IsActive.HasValue && (bool)usr.IsActive.Value));
             await task;
             return task.Result;
         }
 
         IEnumerable<User> IUserService.GetAllUsers()
         {
-            return _chatContext.Users.Where(usr => usr.IsActive);
+            return _chatContext.Users.Where(usr => usr.IsActive.HasValue && (bool)usr.IsActive.Value);
         }
 
         public async Task<User> GetUserAsync(string userName)
@@ -115,13 +117,13 @@ namespace iConnect.Data.ApplicationServices
             return true;
         }
 
-        public async Task CreateUserAsync(User user)
-        {
-            var task = Task.Factory.StartNew(() => CreateUser(user));
-            await task;
-        }
+        //public async Task CreateUserAsync(User user)
+        //{
+        //    var task = Task.Factory.StartNew(() => CreateUser(user));
+        //    await task;
+        //}
 
-        public void CreateUser(User user)
+        public void CreateUser(User user, UserType userType)
         {
             if (user != null)
             {
@@ -130,9 +132,8 @@ namespace iConnect.Data.ApplicationServices
                 user.CreatedOn = DateTime.Now;
                 user.ModifiedOn = DateTime.Now;
                 _chatContext.Users.Add(user);
-                _chatContext.SaveChanges();
+                _chatContext.SaveChanges();              
             }
-
         }
 
         public Task DeleteUserAsync(string userName)
@@ -146,7 +147,27 @@ namespace iConnect.Data.ApplicationServices
             if (user == null) return;
             _chatContext.Users.Remove(user);
             _chatContext.SaveChanges();
-        } 
+        }
+
+        public void UpdateUser(User user)
+        {
+            var data = _chatContext.Users.FirstOrDefault(usr => usr.EmailAddress == user.EmailAddress);
+
+            if (user == null) 
+                return;
+
+            data.FirstName = user.FirstName;
+            data.LastName = user.LastName;
+            data.MiddleName = user.MiddleName;
+            data.Alias = user.Alias;
+            data.AvatarUrl = user.AvatarUrl;
+            data.IsActive = user.IsActive;
+            data.IsOnline = user.IsOnline;
+            data.CreatedOn = DateTime.Now;
+            data.ModifiedOn = DateTime.Now;
+
+            _chatContext.SaveChanges();
+        }
 
         #endregion
     }

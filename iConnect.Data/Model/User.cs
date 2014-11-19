@@ -31,11 +31,6 @@ namespace iConnect.Data.Model
         public string EmailAddress { get; set; }    
 
         /// <summary>
-        ///  Password used as login
-        /// </summary>
-        public string Password { get; set; }
-
-        /// <summary>
         ///  Alias name for the user
         /// </summary>
         public string Alias { get; set; }
@@ -45,12 +40,7 @@ namespace iConnect.Data.Model
         /// </summary>
         public string AvatarUrl { get; set; }
 
-        /// <summary>
-        ///  Type of user
-        /// </summary>
-        public UserType UserType { get; set; }
-
-        /// <summary>
+       /// <summary>
         ///  List of messages sent by user
         /// </summary>
         public virtual List<Message> Messages { get; set; }
@@ -58,12 +48,12 @@ namespace iConnect.Data.Model
         /// <summary>
         ///  Status of user user for soft deletion
         /// </summary>
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
 
         /// <summary>
         ///  Online status of the user
         /// </summary>
-        public bool IsOnline { get; set; }
+        public bool? IsOnline { get; set; }
     }
 
     public class Message : BaseEntity
@@ -78,8 +68,8 @@ namespace iConnect.Data.Model
 
     public abstract class BaseEntity
     {
-        public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
     }
 
     public enum UserType

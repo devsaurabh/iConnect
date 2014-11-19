@@ -1,0 +1,74 @@
+﻿@model IEnumerable<iConnect.Server.ViewModels.UserViewModel>
+
+@{
+    ViewBag.Title = "Chat Service";
+    Layout = "~/Views/Shared/_HeaderLayout.cshtml";
+}
+
+<div class="col-lg-3">
+    <div class="list-group">
+        @foreach (var item in Model)
+        {
+            var status = @item.IsOnline == true ? "Online" : "";
+            var statusCssClass = @item.IsOnline == true ? "label label-success" : "";
+
+            <div class="list-group-item active">
+                <span class="glyphicon glyphicon-user"></span> @Html.DisplayFor(modelItem => item.FirstName)
+                <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="col-lg-8">
+    <div class="row chat-box">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <div class="row chat-area">
+                        <div class="col-lg-12">
+                            @*<div class="panel">
+
+                            </div>*@
+                            <ul id="ulChatMessages"></ul>
+                        </div>
+                    </div>
+                    <div class="row chat-buttons">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" id="txtMessage" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="btnSubmit" type="submit" onclick="chatServer.sendMessage();">Submit</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+<script src="~/Scripts/app/chatClient.js"></script>
+<script type="text/javascript">
+    $(function () {
+        loggedInUser = '@User.Identity.Name'
+        chatServer.connectToServer(loggedInUser);
+        $('#txtMessage').focus();
+
+        $('#txtMessage').keyup(function (e) {
+            if (e.which == 13) {
+                chatServer.sendMessage();
+            }
+        });
+
+    });
+</script>
+
+}
