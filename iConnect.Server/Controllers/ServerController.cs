@@ -98,31 +98,54 @@ namespace iConnect.Server.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit()
+        public ActionResult Edit(string userName)
         {
-            return View(new UserViewModel());
+            var model = _userService.GetUser(userName);
+            var userRole = Roles.GetRolesForUser(userName).FirstOrDefault();
+            
+            var userModel = new UserViewModel
+            {
+                Alias = model.Alias,
+                UserName = model.EmailAddress,
+                FirstName = model.FirstName,
+                MiddleName = model.MiddleName,
+                LastName = model.LastName,
+                UserType =  userRole,
+            };
+
+            return View(userModel);
         }
 
         [HttpPost]
         public ActionResult Edit(UserViewModel model)
         {
-            var user = new User
+            if (ModelState.IsValid)
             {
-                Alias = model.Alias,
-                AvatarUrl = string.Empty,
-                EmailAddress = model.UserName,
-                FirstName = model.FirstName,
-                MiddleName = model.MiddleName,
-                LastName = model.LastName,
-                IsActive = true
-            };
+                var user = new User
+                {
+                    Alias = model.Alias,
+                    AvatarUrl = string.Empty,
+                    EmailAddress = model.UserName,
+                    FirstName = model.FirstName,
+                    MiddleName = model.MiddleName,
+                    LastName = model.LastName
+                    //IsActive = true
+                };
+                var userRole = Roles.GetRolesForUser(model.UserName).FirstOrDefault();
+                if (userRole != model.UserType)
+                {
+                    Roles.RemoveUserFromRole(model.UserName, userRole);
+                    Roles.AddUserToRole(model.UserName, model.UserType);                        
+                }
+                _userService.UpdateUser(user);
+            }
 
             if (!WebSecurity.UserExists(model.UserName))
             {
                 //WebSecurity.CreateUserAndAccount(model.UserName, "123456", new { FirstName = model.FirstName, LastName = model.LastName, Alias = model.Alias, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, IsActive = true, IsOnline = false });
-                WebSecurity.CreateUserAndAccount(model.UserName, "123456");
+                //WebSecurity.CreateUserAndAccount(model.UserName, "123456");                
                 Roles.AddUserToRole(model.UserName, model.UserType);
-                _userService.UpdateUser(user);
+                
             }
 
             return RedirectToAction("GetUserList");
