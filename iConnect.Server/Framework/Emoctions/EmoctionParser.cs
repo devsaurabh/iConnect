@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -11,7 +10,7 @@ namespace iConnect.Server.Framework.Emoctions
     {
         public List<Emoticons> GetAllEmoctions()
         {
-            var emoctionFile = ConfigurationManager.AppSettings["Emoctions"];
+            var emoctionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Emoticons.xml");
             var xDoc = XDocument.Load(emoctionFile);
             var emoctions = xDoc.Elements().Select(element => new Emoticons
             {
@@ -25,7 +24,7 @@ namespace iConnect.Server.Framework.Emoctions
 
         public List<Emoticons> GetAutoReplaceEmoticons()
         {
-            var emoctionFile = ConfigurationManager.AppSettings["Emoctions"];
+            var emoctionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Emoticons.xml");
             var xDoc = XDocument.Load(emoctionFile);
             var emoctions = xDoc.Elements().Select(element => new Emoticons
             {
@@ -41,7 +40,7 @@ namespace iConnect.Server.Framework.Emoctions
 
         public void PrepareEmoctions()
         {
-            var emoctionFile = ConfigurationManager.AppSettings["Emoctions"];
+            var emoctionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Emoticons.xml");
             var doc = new XDocument(new XElement("Emoticons"));
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Content/Emoticons");
             var emoticonFolder = new DirectoryInfo(path);
@@ -67,7 +66,7 @@ namespace iConnect.Server.Framework.Emoctions
 
         public void CreateEmoctionFile()
         {
-            var emoctionFile = ConfigurationManager.AppSettings["Emoctions"];
+            var emoctionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Emoticons.xml");
             var doc =
                 new XDocument(new XElement("Emoction", 
                     new XAttribute("KeyCode", ":)"),
