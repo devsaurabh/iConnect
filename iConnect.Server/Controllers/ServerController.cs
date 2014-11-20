@@ -5,10 +5,10 @@ using iConnect.Data;
 using iConnect.Data.ApplicationServices;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect.Data.Model;
+using iConnect.Server.Framework.Emoctions;
 using iConnect.Server.ViewModels;
 using WebMatrix.WebData;
 using iConnect.Server.Filters;
-using System;
 
 namespace iConnect.Server.Controllers
 {
@@ -16,15 +16,26 @@ namespace iConnect.Server.Controllers
     [Authorize]
     public class ServerController : Controller
     {
+        #region Private Members
+
         private readonly IUserService _userService;
-        //private readonly IAuthenticationService _authenticationsService;
+
+        #endregion
+
+        #region Ctor
 
         public ServerController()
         {
+            var parser = new EmoctionParser();
+            parser.PrepareEmoctions();
             var chatContext = new ChatContext();
             _userService = new UserService(chatContext);
             //_authenticationsService = new AuthenticationService(_userService);
         }
+        
+        #endregion
+
+        #region Actions
 
         public ActionResult Index()
         {
@@ -42,13 +53,13 @@ namespace iConnect.Server.Controllers
                 MiddleName = usr.MiddleName,
                 LastName = usr.LastName,
                 Alias = usr.Alias,
-                IsOnline = usr.IsOnline.HasValue? (bool)usr.IsOnline.Value : false,
+                IsOnline = usr.IsOnline.HasValue && usr.IsOnline.Value,
                 RegisteredOn = usr.CreatedOn.Value
             }).OrderBy(u => u.RegisteredOn).ToList();
             return View(model);
         }
 
-        [Authorize(Roles="Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult GetUserList()
         {
             var allUsers = _userService.GetAllUsers();
@@ -60,9 +71,9 @@ namespace iConnect.Server.Controllers
                 MiddleName = usr.MiddleName,
                 LastName = usr.LastName,
                 Alias = usr.Alias,
-                IsOnline = usr.IsOnline.HasValue ? (bool)usr.IsOnline.Value : false,
+                IsOnline = usr.IsOnline.HasValue && usr.IsOnline.Value,
                 RegisteredOn = usr.CreatedOn.Value
-            }).OrderBy(u=>u.RegisteredOn).ToList();
+            }).OrderBy(u => u.RegisteredOn).ToList();
             return View(model);
         }
 
@@ -84,13 +95,13 @@ namespace iConnect.Server.Controllers
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
                 IsActive = true
-            };            
+            };
 
             if (!WebSecurity.UserExists(model.UserName))
             {
                 //WebSecurity.CreateUserAndAccount(model.UserName, "123456", new { FirstName = model.FirstName, LastName = model.LastName, Alias = model.Alias, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, IsActive = true, IsOnline = false });
                 WebSecurity.CreateUserAndAccount(model.UserName, "123456");
-                Roles.AddUserToRole(model.UserName, model.UserType);                
+                Roles.AddUserToRole(model.UserName, model.UserType);
                 _userService.UpdateUser(user);
             }
 
@@ -102,7 +113,7 @@ namespace iConnect.Server.Controllers
         {
             var model = _userService.GetUser(userName);
             var userRole = Roles.GetRolesForUser(userName).FirstOrDefault();
-            
+
             var userModel = new UserViewModel
             {
                 Alias = model.Alias,
@@ -110,7 +121,7 @@ namespace iConnect.Server.Controllers
                 FirstName = model.FirstName,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
-                UserType =  userRole,
+                UserType = userRole,
             };
 
             return View(userModel);
@@ -135,7 +146,7 @@ namespace iConnect.Server.Controllers
                 if (userRole != model.UserType)
                 {
                     Roles.RemoveUserFromRole(model.UserName, userRole);
-                    Roles.AddUserToRole(model.UserName, model.UserType);                        
+                    Roles.AddUserToRole(model.UserName, model.UserType);
                 }
                 _userService.UpdateUser(user);
             }
@@ -145,7 +156,7 @@ namespace iConnect.Server.Controllers
                 //WebSecurity.CreateUserAndAccount(model.UserName, "123456", new { FirstName = model.FirstName, LastName = model.LastName, Alias = model.Alias, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, IsActive = true, IsOnline = false });
                 //WebSecurity.CreateUserAndAccount(model.UserName, "123456");                
                 Roles.AddUserToRole(model.UserName, model.UserType);
-                
+
             }
 
             return RedirectToAction("GetUserList");
@@ -205,6 +216,23 @@ namespace iConnect.Server.Controllers
             return View(model);
         }
 
+        public ActionResult Logout()
+        {
+            WebSecurity.Logout();
+            return RedirectToAction("Login", "Server");
+        }
+
+        public JsonResult GetEmoticons()
+        {
+            var emoticons = new EmoctionParser().GetAutoReplaceEmoticons();
+            var result = Json(new {Emoticons = emoticons, JsonRequestBehavior.AllowGet});
+            return result;
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
@@ -242,12 +270,7 @@ namespace iConnect.Server.Controllers
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }
-
-        public ActionResult Logout()
-        {
-            WebSecurity.Logout();
-            return RedirectToAction("Login", "Server");
-        }
-
+        
+        #endregion
     }
 }
