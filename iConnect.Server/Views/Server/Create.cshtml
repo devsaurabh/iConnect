@@ -63,12 +63,18 @@
             <div class="col-lg-3">
                 @Html.DropDownListFor(m => m.UserType, Model.UserTypes, new {@class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserType)
-            </div>         
-           
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-3">
+                @Html.CheckBoxFor(m => m.IsActive, new { @class = "control-label activeUSer" })
+                @Html.ValidationMessageFor(model => model.IsActive)
+            </div>
         </div>
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+                @Html.ActionLink("Back to List", "GetUserList", null, new { @class = "btn btn-default" })
                 <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </div>

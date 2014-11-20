@@ -26,8 +26,6 @@ namespace iConnect.Server.Controllers
 
         public ServerController()
         {
-            var parser = new EmoctionParser();
-            parser.PrepareEmoctions();
             var chatContext = new ChatContext();
             _userService = new UserService(chatContext);
             //_authenticationsService = new AuthenticationService(_userService);
@@ -71,7 +69,8 @@ namespace iConnect.Server.Controllers
                 MiddleName = usr.MiddleName,
                 LastName = usr.LastName,
                 Alias = usr.Alias,
-                IsOnline = usr.IsOnline.HasValue && usr.IsOnline.Value,
+                IsOnline = usr.IsOnline.HasValue ? (bool)usr.IsOnline.Value : false,
+                IsActive = usr.IsActive.HasValue ? (bool)usr.IsActive.Value : false,
                 RegisteredOn = usr.CreatedOn.Value
             }).OrderBy(u => u.RegisteredOn).ToList();
             return View(model);
@@ -94,7 +93,8 @@ namespace iConnect.Server.Controllers
                 FirstName = model.FirstName,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
-                IsActive = true
+                IsActive = model.IsActive ? (bool)model.IsActive : false,
+                IsOnline = model.IsOnline ? (bool)model.IsOnline : false
             };
 
             if (!WebSecurity.UserExists(model.UserName))
@@ -109,6 +109,7 @@ namespace iConnect.Server.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         public ActionResult Edit(string userName)
         {
             var model = _userService.GetUser(userName);
@@ -116,12 +117,15 @@ namespace iConnect.Server.Controllers
 
             var userModel = new UserViewModel
             {
+                UserId = model.UserId,
                 Alias = model.Alias,
                 UserName = model.EmailAddress,
                 FirstName = model.FirstName,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
                 UserType = userRole,
+                IsActive = model.IsActive.HasValue ? (bool)model.IsActive.Value : false,
+                IsOnline = model.IsOnline.HasValue ? (bool)model.IsOnline.Value : false
             };
 
             return View(userModel);
@@ -139,8 +143,9 @@ namespace iConnect.Server.Controllers
                     EmailAddress = model.UserName,
                     FirstName = model.FirstName,
                     MiddleName = model.MiddleName,
-                    LastName = model.LastName
-                    //IsActive = true
+                    LastName = model.LastName,
+                    IsActive = model.IsActive,
+                    IsOnline = model.IsOnline
                 };
                 var userRole = Roles.GetRolesForUser(model.UserName).FirstOrDefault();
                 if (userRole != model.UserType)

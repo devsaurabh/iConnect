@@ -37,7 +37,7 @@ namespace iConnect.Data.ApplicationServices
 
         IEnumerable<User> IUserService.GetAllUsers()
         {
-            return _chatContext.Users.Where(usr => usr.IsActive.HasValue && (bool)usr.IsActive.Value);
+            return _chatContext.Users;//.Where(usr => usr.IsActive.HasValue && (bool)usr.IsActive.Value);
         }
 
         public async Task<User> GetUserAsync(string userName)

@@ -28,6 +28,7 @@ namespace iConnect.Server.ViewModels
         public string Alias { get; set; }
         public DateTime RegisteredOn { get; set; }
         public bool IsOnline { get; set; }
+        public bool IsActive { get; set; }
         public string UserType { get; set; }
 
         public SelectList UserTypes { get; set; }

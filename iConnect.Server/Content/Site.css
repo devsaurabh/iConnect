@@ -218,6 +218,13 @@ background: linear-gradient(to bottom,  rgba(62,68,76,1) 0%,rgba(0,0,0,0) 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e444c', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
 
 border-radius:5px;
+}
 
 
+.formDisableBgColor{
+    background-color:#ffffff!important;
+}
+
+.activeUSer{
+    margin:14px 0 0!important;
 }
