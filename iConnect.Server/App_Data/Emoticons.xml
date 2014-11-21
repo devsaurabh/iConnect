@@ -1,6 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Emoticons>
-  <Emoticon KeyCode=":)" ImageCode="Smiley-01.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=":)" ImageCode="Smiley-04.png" Group="EmojiCodes" Description="Smile" AutoReplace="true" />
+  <Emoticon KeyCode=":(" ImageCode="Smiley-20.png" Group="EmojiCodes" Description="Frown" AutoReplace="true" />
+  <Emoticon KeyCode=":P" ImageCode="Smiley-12.png" Group="EmojiCodes" Description="Tongue" AutoReplace="true" />
+  <Emoticon KeyCode=":D" ImageCode="Smiley-02.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=":O" ImageCode="Smiley-54.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=";)" ImageCode="Smiley-06.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode="B|" ImageCode="Smiley-41.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=">:(" ImageCode="Smiley-37.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=":/" ImageCode="Smiley-53.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=":'(" ImageCode="Smiley-26.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode="3:)" ImageCode="Smiley-48.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode="O:)" ImageCode="Smiley-56.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode=":*" ImageCode="Smiley-08.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode="^_^" ImageCode="Smiley-38.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+  <Emoticon KeyCode="-_-" ImageCode="Smiley-58.png" Group="EmojiCodes" Description="" AutoReplace="true" />
+ 
   <Emoticon KeyCode="Natur-01" ImageCode="Natur-01.png" Group="EmojiNature" Description="" AutoReplace="false" />
   <Emoticon KeyCode="Natur-02" ImageCode="Natur-02.png" Group="EmojiNature" Description="" AutoReplace="false" />
   <Emoticon KeyCode="Natur-03" ImageCode="Natur-03.png" Group="EmojiNature" Description="" AutoReplace="false" />
