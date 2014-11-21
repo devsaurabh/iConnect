@@ -1,7 +1,8 @@
 ﻿$(function () {
-    // Client-Side Events
-    chatHub.client.onBroadcast = function (UserName, message, Alias) {
-        $('#ulChatMessages').append('<li><strong>' + Alias + ": </strong>" + message + '</li>');
+    var chatHub = $.connection.chatHub;
+
+    chatHub.client.onBroadcast = function (userName, message, alias) {
+        $('#ulChatMessages').append('<li><strong>' + alias + ": </strong>" + message + '</li>');
         $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
     }
 

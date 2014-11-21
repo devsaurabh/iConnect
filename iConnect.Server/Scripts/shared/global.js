@@ -1,12 +1,11 @@
 ﻿var loggedInUser = "";
-var chatHub = $.connection.chatHub;
+
 var connection;
-var chatServer;
 
 // Common Methods
 $(function () {
     connection = $.connection.hub.start();
-    chatServer = new chatHubServer(connection);    
+    
 });
 
 function markOnline(userName) {

@@ -1,5 +1,6 @@
-﻿var chatHubServer = function (connectionObject) {
+﻿var ChatHubServer = function (connectionObject) {
     var self = this;
+    var chatHub = $.connection.chatHub;
 
     self.connectToServer = function (userName) {
         connectionObject.done(function () {
@@ -13,10 +14,11 @@
 
     self.sendMessage = function () {
         var message = $('#txtMessage').val();
-
+        message = emoticons.parseString(message);
+        console.log(message);
         if (message.length > 0) {
             chatHub.server.broadcastToAll(message);
-            message = message.replace(":(", "<img src='/iConnect/Content/Emoticons/sad_smile.png' style='width: 24px' />");
+            //message = message.replace(":(", "<img src='/iConnect/Content/Emoticons/sad_smile.png' style='width: 24px' />");
 
             $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');            
             $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);

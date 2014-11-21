@@ -181,7 +181,7 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Emoctions.xml" />
+    <Content Include="App_Data\Emoticons.xml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -1034,9 +1034,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\app\chatClient.js" />
-    <Content Include="Scripts\app\chatServer.js" />
-    <Content Include="Scripts\app\global.js" />
+    <Content Include="Scripts\app\chat.js" />
+    <Content Include="Scripts\shared\chatClient.js" />
+    <Content Include="Scripts\shared\chatServer.js" />
+    <Content Include="Scripts\shared\emoticonParser.js" />
+    <Content Include="Scripts\shared\global.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="packages.config" />

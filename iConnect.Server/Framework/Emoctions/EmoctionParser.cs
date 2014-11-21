@@ -26,7 +26,7 @@ namespace iConnect.Server.Framework.Emoctions
         {
             var emoctionFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"App_Data\Emoticons.xml");
             var xDoc = XDocument.Load(emoctionFile);
-            var emoctions = xDoc.Elements().Select(element => new Emoticons
+            var emoctions = xDoc.Element("Emoticons").Elements().Select(element => new Emoticons
             {
                 KeyCode = element.Attribute("KeyCode").Value,
                 ImageCode = element.Attribute("ImageCode").Value,

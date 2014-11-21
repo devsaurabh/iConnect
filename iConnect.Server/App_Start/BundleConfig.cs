@@ -9,14 +9,25 @@ namespace iConnect.Server
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/Scripts/jquery.signalR-2.1.1.js"
+                        "~/Scripts/jquery.signalR-2.1.1.js",
+                         "~/Scripts/shared/global.js"
+                       
                         ));
 
-            bundles.Add(new ScriptBundle("~/bundles/chatHub").Include(
-                        "~/Scripts/app/global.js",
-                        //"~/Scripts/app/chatClient.js",
-                        "~/Scripts/app/chatServer.js"
+            bundles.Add(new ScriptBundle("~/bundles/chathub").Include(
+                        "~/Scripts/app/chat.js",
+                        "~/Scripts/shared/emoticonParser.js",
+                         "~/Scripts/shared/chatServer.js",
+                        "~/Scripts/shared/chatClient.js"
                         ));
+
+            
+
+            //bundles.Add(new ScriptBundle("~/bundles/chatHub").Include(
+            //            "~/Scripts/app/global.js",
+            //            "~/Scripts/app/emoticonParser.js",
+            //            "~/Scripts/app/chatServer.js"
+            //            ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));

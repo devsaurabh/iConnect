@@ -69,8 +69,8 @@ namespace iConnect.Server.Controllers
                 MiddleName = usr.MiddleName,
                 LastName = usr.LastName,
                 Alias = usr.Alias,
-                IsOnline = usr.IsOnline.HasValue ? (bool)usr.IsOnline.Value : false,
-                IsActive = usr.IsActive.HasValue ? (bool)usr.IsActive.Value : false,
+                IsOnline = usr.IsOnline.HasValue && usr.IsOnline.Value,
+                IsActive = usr.IsActive.HasValue && usr.IsActive.Value,
                 RegisteredOn = usr.CreatedOn.Value
             }).OrderBy(u => u.RegisteredOn).ToList();
             return View(model);
@@ -93,13 +93,12 @@ namespace iConnect.Server.Controllers
                 FirstName = model.FirstName,
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
-                IsActive = model.IsActive ? (bool)model.IsActive : false,
-                IsOnline = model.IsOnline ? (bool)model.IsOnline : false
+                IsActive = model.IsActive && model.IsActive,
+                IsOnline = model.IsOnline && model.IsOnline
             };
 
             if (!WebSecurity.UserExists(model.UserName))
             {
-                //WebSecurity.CreateUserAndAccount(model.UserName, "123456", new { FirstName = model.FirstName, LastName = model.LastName, Alias = model.Alias, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, IsActive = true, IsOnline = false });
                 WebSecurity.CreateUserAndAccount(model.UserName, "123456");
                 Roles.AddUserToRole(model.UserName, model.UserType);
                 _userService.UpdateUser(user);
@@ -124,8 +123,8 @@ namespace iConnect.Server.Controllers
                 MiddleName = model.MiddleName,
                 LastName = model.LastName,
                 UserType = userRole,
-                IsActive = model.IsActive.HasValue ? (bool)model.IsActive.Value : false,
-                IsOnline = model.IsOnline.HasValue ? (bool)model.IsOnline.Value : false
+                IsActive = model.IsActive.HasValue && model.IsActive.Value,
+                IsOnline = model.IsOnline.HasValue && model.IsOnline.Value
             };
 
             return View(userModel);
@@ -158,10 +157,7 @@ namespace iConnect.Server.Controllers
 
             if (!WebSecurity.UserExists(model.UserName))
             {
-                //WebSecurity.CreateUserAndAccount(model.UserName, "123456", new { FirstName = model.FirstName, LastName = model.LastName, Alias = model.Alias, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now, IsActive = true, IsOnline = false });
-                //WebSecurity.CreateUserAndAccount(model.UserName, "123456");                
                 Roles.AddUserToRole(model.UserName, model.UserType);
-
             }
 
             return RedirectToAction("GetUserList");
@@ -180,10 +176,8 @@ namespace iConnect.Server.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                //_userService.MarkOnline(model.UserName);
                 return RedirectToAction("Chat");
             }
-
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
             return RedirectToAction("Login");
         }
@@ -194,43 +188,16 @@ namespace iConnect.Server.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Attempt to register the user
-                try
-                {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
-        }
-
         public ActionResult Logout()
         {
             WebSecurity.Logout();
             return RedirectToAction("Login", "Server");
         }
 
-        public JsonResult GetEmoticons()
+        public ActionResult GetEmoticons()
         {
             var emoticons = new EmoctionParser().GetAutoReplaceEmoticons();
-            var result = Json(new {Emoticons = emoticons, JsonRequestBehavior.AllowGet});
+            var result = Json(emoticons, JsonRequestBehavior.AllowGet);
             return result;
         }
 

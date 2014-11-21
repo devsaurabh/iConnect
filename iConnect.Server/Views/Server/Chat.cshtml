@@ -1,4 +1,4 @@
-﻿@model IEnumerable<iConnect.Server.ViewModels.UserViewModel>
+﻿@model System.Collections.Generic.IEnumerable<iConnect.Server.ViewModels.UserViewModel>
 
 @{
     ViewBag.Title = "Chat Service";
@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-
+                    
                     <div class="row chat-area">
                         <div class="col-lg-12">
                             @*<div class="panel">
@@ -60,10 +60,11 @@
 
 @section scripts
 {
-<script src="~/Scripts/app/chatClient.js"></script>
+@Scripts.Render("~/bundles/chatHub")
 <script type="text/javascript">
     $(function () {
-        loggedInUser = '@User.Identity.Name'
+        loggedInUser = '@User.Identity.Name';
+        
         chatServer.connectToServer(loggedInUser);
         $('#txtMessage').focus();
 
