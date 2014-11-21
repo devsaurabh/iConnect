@@ -5,14 +5,10 @@
     self.emoticonCodes = null;
 
     self.parseString = function (string) {
-        console.log(string);
-        console.log(self.emoticonCodes);
         if (self.emoticonCodes != null) {
-
             $.each(self.emoticonCodes, function(key, value) {
-                console.log(value);
                 var path = '<img style="width:24px" src="' + self.emoticonImagePath + '/' + value.Group + '/' + value.ImageCode + '" />';
-                string = string.replace(value.KeyCode, path);
+                string = self.replaceAll(string, value.KeyCode, path);
             });
         }
         return string;
@@ -22,10 +18,14 @@
         
         $.getJSON(self.emoticonServerUrl, function (data) {
             self.emoticonCodes = data;
-            console.log(data);
         });
     }
 
+    self.escapeRegExp = function(string) {
+        return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    }
 
-
+    self.replaceAll = function(string, find, replace) {
+        return string.replace(new RegExp(self.escapeRegExp(find), 'g'), replace);
+    }
 }
