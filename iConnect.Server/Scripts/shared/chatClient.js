@@ -2,9 +2,8 @@
     var chatHub = $.connection.chatHub;
 
     chatHub.client.onBroadcast = function (userName, message, alias) {
-        //$('#ulChatMessages').append('<li><strong>' + alias + ": </strong>" + message + '</li>');
-        //$(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
-        showAlert(userName, message);
+        var n = noty({ text: alias + 'said: ' + message, theme: "relax", type: "success", killer: true });
+        
     }
 
     chatHub.client.onConnect = function (userName) {

@@ -86,10 +86,11 @@
 </div>
 
 
-
+<script src="~/Scripts/noty/themes/relax.js"></script>
 @section scripts
 {
 @Scripts.Render("~/bundles/chatHub")
+
 <script type="text/javascript">
     $(function () {
         loggedInUser = '@User.Identity.Name';

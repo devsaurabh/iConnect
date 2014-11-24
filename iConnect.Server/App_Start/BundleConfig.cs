@@ -16,6 +16,7 @@ namespace iConnect.Server
 
             bundles.Add(new ScriptBundle("~/bundles/chathub").Include(
                         "~/Scripts/app/chat.js",
+                        "~/Scripts/noty/packaged/jquery.noty.packaged.js",
                         "~/Scripts/shared/emoticonParser.js",
                          "~/Scripts/shared/chatServer.js",
                         "~/Scripts/shared/chatClient.js"
@@ -45,7 +46,8 @@ namespace iConnect.Server
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/site.css"));
+                "~/Content/site.css",
+                "~/Scripts/noty/themes/relax.js"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
