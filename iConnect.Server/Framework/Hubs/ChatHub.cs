@@ -90,7 +90,7 @@ namespace iConnect.Server.Framework.Hubs
             var fromUser = UserList.FirstOrDefault(u => u.ConnectionId == Context.ConnectionId);
             var toUser = UserList.FirstOrDefault(u => u.UserName == userName);
             if (fromUser != null && toUser != null)
-                Clients.Client(toUser.ConnectionId).onPrivate(fromUser.UserName, message);
+                Clients.Client(toUser.ConnectionId).onPrivate(fromUser.Alias, message);
         }
 
         public void BroadcastToAll(string message)

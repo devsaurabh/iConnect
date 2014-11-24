@@ -15,15 +15,15 @@
         <div class="tab-pane fade active in" id="allUsers">
             <div class="list-group">
                 @foreach (var item in Model)
-                {
-                    var status = @item.IsOnline == true ? "Online" : "";
-                    var statusCssClass = @item.IsOnline == true ? "label label-success" : "";
+{
+    var status = @item.IsOnline == true ? "Online" : "";
+    var statusCssClass = @item.IsOnline == true ? "label label-success" : "";
 
-                    <a href="#" class="list-group-item">
-                        <span class="glyphicon glyphicon-user"></span> @item.Alias
-                        <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
-                    </a>
-                }
+    <a href="#" class="list-group-item user-list-item" data-user="@item.UserName">
+        <span class="glyphicon glyphicon-user"></span> @item.Alias
+        <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
+    </a>
+}
             </div>
         </div>
         <div class="tab-pane fade in" id="groups">
@@ -34,14 +34,15 @@
     
 </div>
 
-<div class="col-lg-8">
+<div class="col-lg-8" id="chat-area">
+    
     <div class="row chat-box">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div data-user="" id="chat-with" class="col-lg-12">
-                        <h4>Chat with <strong id="chat-user"></strong></h4>
-                    </div>
+                    @*<div data-user="" id="chat-with" class="col-lg-12">
+                        <h4 class="text-success">Chat with <strong id="chat-user"></strong></h4>
+                    </div>*@
                     <div class="row chat-area">
                         <div class="col-lg-12">
                             <ul id="ulChatMessages"></ul>
@@ -53,7 +54,7 @@
                                 <div class="input-group">
                                     <input type="text" id="txtPrivateMessage" class="form-control">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-default" id="btnSubmit" type="submit" onclick="chatServer.sendPrivate();">Submit</button>
+                                        <button class="btn btn-default" id="btnSubmit" type="submit" onclick="chatServer.sendPrivate($('#chat-user').attr('data-user'))">Submit</button>
                                     </span>
                                 </div>
                             </div>
@@ -105,6 +106,16 @@
         function closeBroadcastDialog() {
             
         }
+
+        $(".user-list-item").click(function () {
+            $("#chat-user").remove();
+            $("#chat-area").prepend('<span class="label label-success" id="chat-user"></span>');
+            var user = $(this).attr("data-user");
+            $("#chat-user").attr("data-user", user);
+            var alias = $(this).text();
+            alias = alias.replace("Online", "");           
+            $("#chat-user").html("Chatting with " + alias);           
+        });
 
       
 

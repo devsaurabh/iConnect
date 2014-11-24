@@ -26,17 +26,18 @@
         }
     };
 
-    self.sendPrivate = function (callbackFunction) {
+    self.sendPrivate = function (sendTo) {
+        alert(sendTo);
         var message = $('#txtPrivateMessage').val();
         message = emoticons.parseString(message);
         console.log(message);
         if (message.length > 0) {
-            chatHub.server.sendPrivateMessage(loggedInUser,message).done(function () {
+            chatHub.server.sendPrivateMessage(sendTo, message).done(function () {
                 $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
                 $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
                 $('#txtPrivateMessage').val("");
                 $('#txtPrivateMessage').focus();
-                if (typeof callbackFunction == "function") callbackFunction();
+                //if (typeof callbackFunction == "function") callbackFunction();
             });
         }
     }

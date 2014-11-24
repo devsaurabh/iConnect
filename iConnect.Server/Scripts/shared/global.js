@@ -10,6 +10,16 @@ $(function () {
     
 
 
+
+
+$('#broadcast-alert').on('closed.bs.alert', function () {
+    $(body).remove($("#broadcast-alert"));
+    // do something…
+});
+
+});
+
+
 function markOnline(userName) {
     var user = $(".list-group-item").find("[data-user='" + userName + "']");
     user.addClass("label label-success");
@@ -27,19 +37,9 @@ function showAlert(fromUser, message) {
               '<button type="button" class="close" data-dismiss="alert">' +
               '<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><strong>' + fromUser +
          + '</strong>' + message + '</div>';
-    $(body).prepend(div);
+    $('body').prepend(div);
     $(div).show();
 }
-
-$('#broadcast-alert').on('closed.bs.alert', function () {
-    $(body).remove($("#broadcast-alert"));
-    // do something…
-});
-
-});
-
-
-
 
 
 
