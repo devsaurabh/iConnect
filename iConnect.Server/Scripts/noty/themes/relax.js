@@ -5,11 +5,11 @@ $.noty.themes.relax = {
     modal   : {
         css: {
             position       : 'fixed',
-            width          : '100%',
+            width          : '50%',
             height         : '100%',
             backgroundColor: '#000',
             zIndex         : 10000,
-            opacity        : 0.6,
+            opacity        : 0.8,
             display        : 'none',
             left           : 0,
             top            : 0

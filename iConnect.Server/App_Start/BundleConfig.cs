@@ -46,8 +46,7 @@ namespace iConnect.Server
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/site.css",
-                "~/Scripts/noty/themes/relax.js"));
+                "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

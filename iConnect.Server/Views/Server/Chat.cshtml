@@ -86,11 +86,11 @@
 </div>
 
 
-<script src="~/Scripts/noty/themes/relax.js"></script>
+
 @section scripts
 {
 @Scripts.Render("~/bundles/chatHub")
-
+<script src="~/Scripts/noty/themes/relax.js"></script>
 <script type="text/javascript">
     $(function () {
         loggedInUser = '@User.Identity.Name';
@@ -117,9 +117,6 @@
             alias = alias.replace("Online", "");           
             $("#chat-user").html("Chatting with " + alias);           
         });
-
-      
-
     });
 </script>
 
