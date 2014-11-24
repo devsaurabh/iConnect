@@ -12,20 +12,36 @@
         });
     }
 
-    self.sendMessage = function () {
-        var message = $('#txtMessage').val();
+    self.broadcast = function (message, callbackFunction) {
+        alert(message);
+        message = emoticons.parseString(message);
+        if (message.length > 0) {
+            chatHub.server.broadcastToAll(message).done(function () {
+                $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
+                $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
+                $('#txtMessage').val("");
+                $('#txtMessage').focus();
+                if (typeof callbackFunction == "function") callbackFunction();
+            });
+        }
+    };
+
+    self.sendPrivate = function (callbackFunction) {
+        var message = $('#txtPrivateMessage').val();
         message = emoticons.parseString(message);
         console.log(message);
         if (message.length > 0) {
-            chatHub.server.broadcastToAll(message);
-            //message = message.replace(":(", "<img src='/iConnect/Content/Emoticons/sad_smile.png' style='width: 24px' />");
-
-            $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');            
-            $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
-            $('#txtMessage').val("");
-            $('#txtMessage').focus();
+            chatHub.server.sendPrivateMessage(loggedInUser,message).done(function () {
+                $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
+                $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
+                $('#txtPrivateMessage').val("");
+                $('#txtPrivateMessage').focus();
+                if (typeof callbackFunction == "function") callbackFunction();
+            });
         }
     }
+
+    
 
     self.Logout = function (userName) {
         chatHub.server.disconnect(userName);

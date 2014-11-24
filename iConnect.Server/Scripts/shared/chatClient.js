@@ -16,5 +16,11 @@
 
     chatHub.client.onDisconnect = function (userName) {
         markOffline(userName);
-    };    
+    };
+
+    chatHub.client.onPrivate = function(userName, message) {
+        showAlert(userName, message);
+    }
+
+    
 });

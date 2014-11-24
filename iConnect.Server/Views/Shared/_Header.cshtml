@@ -1,39 +1,45 @@
-﻿@using iConnect.Data.Model;
+﻿@using System.Web.Security
+@using iConnect.Data.Model;
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="header">
     <div class="container">
       
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href='@Url.Action("Chat", "Server")'>iConnect</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    @if(Roles.IsUserInRole(UserType.Admin.ToString()))
-                    {                        
-                        <li>@Ajax.ActionLink("Chat", "Chat", "Server", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "childContainer" })</li>                        
-                        <li>@Ajax.ActionLink("Users", "GetUserList", "Server", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "childContainer" })</li>
-                        <li><a href="#">Settings</a></li>
-                    }
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href='@Url.Action("Chat", "Server")'>iConnect</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                @if(Roles.IsUserInRole(UserType.Admin.ToString()))
+                {                        
+                    <li><a href='@Url.Action("Chat", "Server")'> <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Chat</a></li>
+                    <li><a href='@Url.Action("GetUserList", "Server")'><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a></li>
+                }
+            </ul>
+            @if (Request.IsAuthenticated)
+            { 
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href=# data-toggle="modal" data-target="#broadcast"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></a>
+                    </li>                        
+                    <li>
+                        <a href='@Url.Action("Logout", "Server")' onclick="javascript: chatServer.Logout('@User.Identity.Name'); return true;">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                            Logout
+                        </a>
+                    </li>
                 </ul>
-                @if (Request.IsAuthenticated)
-                { 
-                    <ul class="nav navbar-nav navbar-right">                        
-                        <li>
-                            <a href='@Url.Action("Logout", "Server")' onclick="javascript: chatServer.Logout('@User.Identity.Name'); return true;">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                }                
-            </div>
+            }                
+        </div>
    
     </div>
 </div>
+
+
 
