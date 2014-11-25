@@ -15,15 +15,15 @@
         <div class="tab-pane fade active in" id="allUsers">
             <div class="list-group">
                 @foreach (var item in Model)
-{
-    var status = @item.IsOnline == true ? "Online" : "";
-    var statusCssClass = @item.IsOnline == true ? "label label-success" : "";
+                {
+                    var status = @item.IsOnline == true ? "Online" : "";
+                    var statusCssClass = @item.IsOnline == true ? "label label-success" : "";
 
-    <a href="#" class="list-group-item user-list-item" data-user="@item.UserName">
-        <span class="glyphicon glyphicon-user"></span> @item.Alias
-        <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
-    </a>
-}
+                    <a href="#" class="list-group-item user-list-item" data-user="@item.UserName">
+                        <span class="glyphicon glyphicon-user"></span> <span id="userAlias">@item.Alias</span>
+                        <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
+                    </a>
+                }
             </div>
         </div>
         <div class="tab-pane fade in" id="groups">
@@ -35,10 +35,11 @@
 </div>
 
 <div class="col-lg-8" id="chat-area">
-    
+    <div class="chatWithText"></div>
+
     <div class="row chat-box">
         <div class="col-lg-12">
-            <div class="panel panel-default">
+            <div class="panel panel-default">                
                 <div class="panel-body">
                     @*<div data-user="" id="chat-with" class="col-lg-12">
                         <h4 class="text-success">Chat with <strong id="chat-user"></strong></h4>
@@ -115,8 +116,12 @@
             $("#chat-user").attr("data-user", user);
             var alias = $(this).text();
             alias = alias.replace("Online", "");           
-            $("#chat-user").html("Chatting with " + alias);           
+            $(".chatWithText").html("<span class='label label-success' style='background-color:#2B97EA!important;'>Chatting with " + alias + "</span>");
         });
+        
+        //To display 'Welcome Alias' text on top of the Chat page
+        $("#userAlias").html($(".list-group-item").find('[data-user="' + loggedInUser + '"]').prev().text());
+
     });
 </script>
 

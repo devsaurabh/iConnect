@@ -1,24 +1,14 @@
-﻿
-
-var loggedInUser = "";
-
+﻿var loggedInUser = "";
 var connection;
 
 // Common Methods
 $(function () {
     connection = $.connection.hub.start();
-    
-
-
-
-
-$('#broadcast-alert').on('closed.bs.alert', function () {
-    $(body).remove($("#broadcast-alert"));
-    // do something…
+    $('#broadcast-alert').on('closed.bs.alert', function () {
+        $(body).remove($("#broadcast-alert"));
+        // do something…
+    });
 });
-
-});
-
 
 function markOnline(userName) {
     var user = $(".list-group-item").find("[data-user='" + userName + "']");
@@ -40,14 +30,3 @@ function showAlert(fromUser, message) {
     $('body').prepend(div);
     $(div).show();
 }
-
-
-
-
-
-
-
-
-
-
-

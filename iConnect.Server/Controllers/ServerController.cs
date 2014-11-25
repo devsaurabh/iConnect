@@ -42,6 +42,7 @@ namespace iConnect.Server.Controllers
 
         public ActionResult Chat()
         {
+            //WebSecurity.ChangePassword("saurabh.singh@cardinalts.com", "123456", "555555");
             var allUsers = _userService.GetAllUsers();
             var model = allUsers.Select(usr => new UserViewModel
             {

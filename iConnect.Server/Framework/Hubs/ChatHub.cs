@@ -15,29 +15,23 @@ namespace iConnect.Server.Framework.Hubs
         public void Connect(string userName)
         {
             var id = Context.ConnectionId;
-            
 
             using (var dbContext = new ChatContext())
             {
                 var matchingUser = UserList.FirstOrDefault(u => u.ConnectionId == id);
-                
 
                 if (matchingUser == null)
                 {
                     var user = dbContext.Users.FirstOrDefault(u => u.EmailAddress == userName);
-                    //UserList.Remove(UserList.FirstOrDefault(u => u.UserName == userName));
+
                     if (user != null)
                     {
                         user.IsOnline = true;
                         dbContext.SaveChanges();
-                        //UserList.Remove(UserList.FirstOrDefault(u => u.UserName == userName));
                         UserList.Add(new InternalUser { ConnectionId = id, UserName = userName, Alias = user.Alias });
                         Clients.AllExcept(new[] { id }).onConnect(userName);
                     }
                 }
-
-               
-                
             }
         }
 
@@ -52,12 +46,12 @@ namespace iConnect.Server.Framework.Hubs
                     var user = dbContext.Users.FirstOrDefault(u => u.EmailAddress == matchingUser.UserName);
                     if (user != null)
                     {
-                        
+
                         user.IsOnline = false;
                         dbContext.SaveChanges();
                         UserList.Remove(matchingUser);
                         //WebSecurity.Logout();
-                        Clients.AllExcept(new[] {id}).onDisconnect(matchingUser.UserName);
+                        Clients.AllExcept(new[] { id }).onDisconnect(matchingUser.UserName);
                     }
                 }
             }
@@ -109,11 +103,10 @@ namespace iConnect.Server.Framework.Hubs
                 Clients.Client(toUser.ConnectionId).onPing();
         }
 
-
         public async Task<bool> Update()
         {
-           await Clients.All.onUpdate();
-           return true;
+            await Clients.All.onUpdate();
+            return true;
         }
 
         public class InternalUser

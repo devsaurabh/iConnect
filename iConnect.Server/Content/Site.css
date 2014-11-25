@@ -175,9 +175,9 @@ font-size: 24px;
 
 .chat-area {
     position: relative;
-    height: 440px;
+    height: 410px;
     overflow-y:auto;
-    margin-bottom:20px;
+    margin-top:20px;
 }
 
 .chat-buttons {
@@ -223,4 +223,22 @@ border-radius:5px;
 
 .activeUSer{
     margin:14px 0 0!important;
+}
+
+.welcomeMessage {
+    position: relative;
+    display: block;
+    padding: 15px 250px;
+}
+
+.warningBlink {
+        background-color: #FFEAA8!important;
+    }
+
+.chatWithText{
+    width: auto; 
+    height: 20px; 
+    background-color: white; 
+    background-color: #272B30; 
+    border-radius: 5px;
 }

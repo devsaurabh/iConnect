@@ -7,13 +7,14 @@
             markOnline(userName);
             chatHub.server.connect(userName).
                 fail(function () {
-                console.log("Unable to connect to server");
-            });
+                    console.log("Unable to connect to server");
+                });
         });
     }
 
     self.broadcast = function (message, callbackFunction) {
         message = emoticons.parseString(message);
+
         if (message.length > 0) {
             chatHub.server.broadcastToAll(message).done(function () {
                 $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
@@ -26,11 +27,39 @@
     };
 
     self.sendPrivate = function (sendTo) {
-        alert(sendTo);
+       
+        if (sendTo === undefined) {
+            var warnMsg = '<strong style="color:red;">Please select the user from [All Users] list...!!!</strong>';
+
+            var stopBlink = function () {
+                alert('Bye');
+            }
+
+            var n = noty({
+                text: warnMsg,
+                type: "warning",
+                killer: false,
+                theme: "relax",
+                speed: 500,
+                timeout: 3000,
+                onClose: stopBlink
+            });
+                        
+            var x = 0;
+            var backgroundInterval = setInterval(function () {
+                x++;
+                $("li.active a").toggleClass("warningBlink");
+                if (x == 20) clearInterval(backgroundInterval);
+            }, 200);
+            
+            return false;
+        }
+
         var message = $('#txtPrivateMessage').val();
         message = emoticons.parseString(message);
-        console.log(message);
-        if (message.length > 0) {
+
+        if (message.length > 0 && (sendTo != undefined)) {
+           
             chatHub.server.sendPrivateMessage(sendTo, message).done(function () {
                 $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
                 $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
@@ -40,8 +69,6 @@
             });
         }
     }
-
-    
 
     self.Logout = function (userName) {
         chatHub.server.disconnect(userName);

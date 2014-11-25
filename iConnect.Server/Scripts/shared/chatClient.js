@@ -2,8 +2,7 @@
     var chatHub = $.connection.chatHub;
 
     chatHub.client.onBroadcast = function (userName, message, alias) {
-        var n = noty({ text: alias + ' said: ' + message, type: "information", killer: true, theme: "relax"});
-        
+        var n = noty({ text: alias + ' said: ' + message, type: "information", killer: true, theme: "relax" });
     }
 
     chatHub.client.onConnect = function (userName) {
@@ -17,5 +16,4 @@
     chatHub.client.onDisconnect = function (userName) {
         markOffline(userName);
     };
-    
 });
