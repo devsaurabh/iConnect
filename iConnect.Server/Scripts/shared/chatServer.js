@@ -31,10 +31,6 @@
         if (sendTo === undefined) {
             var warnMsg = '<strong style="color:red;">Please select the user from [All Users] list...!!!</strong>';
 
-            var stopBlink = function () {
-                alert('Bye');
-            }
-
             var n = noty({
                 text: warnMsg,
                 type: "warning",
@@ -42,7 +38,9 @@
                 theme: "relax",
                 speed: 500,
                 timeout: 3000,
-                onClose: stopBlink
+                onClose: function () {
+                    alert('Bye');
+                }
             });
                         
             var x = 0;

@@ -1046,6 +1046,7 @@
     <Content Include="Content\Emoticons\EmojiSymbols\Symbols-97.png" />
     <Content Include="Content\Emoticons\EmojiSymbols\Symbols-98.png" />
     <Content Include="Content\Emoticons\EmojiSymbols\Symbols-99.png" />
+    <Content Include="Content\icons\CreateGroup.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

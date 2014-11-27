@@ -95,6 +95,26 @@ namespace iConnect.Server.Framework.Hubs
                 Clients.AllExcept(new[] { id }).onBroadcast(fromUser.UserName, message, fromUser.Alias);
         }
 
+
+        #region SignalR Chat Group
+        
+        public void SubscribeGroup(string groupName)
+        {
+            Groups.Add(Context.ConnectionId, groupName);
+        }
+
+        public void SendGroupMessage(string groupName, string message)
+        {
+            Clients.Group(groupName).sendGroupMessage(message);
+        }
+
+        public void UnsubscribeGroup(string groupName)
+        {
+            Groups.Remove(Context.ConnectionId, groupName);
+        }
+
+        #endregion
+
         public void PingUser(string userName)
         {
             var fromUser = UserList.FirstOrDefault(u => u.ConnectionId == Context.ConnectionId);
