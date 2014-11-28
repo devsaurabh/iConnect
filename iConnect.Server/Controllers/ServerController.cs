@@ -213,6 +213,12 @@ namespace iConnect.Server.Controllers
             return PartialView("_ManageGroups");
         }
 
+        public ActionResult Logout()
+        {
+            WebSecurity.Logout();
+            return RedirectToAction("Login", "Server");
+        }
+
         #endregion
 
         #region Private Methods

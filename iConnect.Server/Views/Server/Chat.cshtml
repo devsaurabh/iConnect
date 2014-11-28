@@ -19,12 +19,8 @@
             <div class="list-group">
                 @foreach (var item in Model)
                 {
-                    var status = @item.IsOnline ? "Online" : "";
-                    var statusCssClass = @item.IsOnline ? "label label-success" : "";
-
                     <a href="#" class="list-group-item" data-user="@item.UserName">
-                        <span class="glyphicon glyphicon-user"></span> <span>@item.Alias</span>
-                        <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
+                        <span class="glyphicon glyphicon-user @(@item.IsOnline ? "user-online" : "")" ></span> <span>@item.Alias</span>
                     </a>
                 }
             </div>
@@ -58,19 +54,12 @@
     <script type="text/javascript">
         var chatterApp = new Chatter();
         function closeBroadcastDialog() {
-
             $("#modal").modal('hide');
         }
         $(function () {
-            
             chatterApp = new Chatter();
             chatterApp.init('@User.Identity.Name','@((User as CustomPrincipal).Alias)');
-            
             $('#txtMessage').focus();
-
-           
-        
-            
 
             $(".list-group-item").click(function () {
                 $("#chat-user").remove();
@@ -81,9 +70,6 @@
                 alias = alias.replace("Online", "");
                 $(".chatWithText").html("<span class='label label-success' style='background-color:#2B97EA!important;'>Chatting with " + alias + "</span>");
             });
-
-           
-
         });
 
         function CreateGroup() {
@@ -95,8 +81,6 @@
 
                 $('#groupList').append(newHtml);
             }
-
-
         }
 
 
@@ -117,7 +101,7 @@
                         }
                     };
 
-                $widget.css('cursor', 'pointer')
+                $widget.css('cursor', 'pointer');
                 $widget.append($checkbox);
 
                 // Event Handlers

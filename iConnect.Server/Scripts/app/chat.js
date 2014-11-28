@@ -28,16 +28,21 @@ var Chatter = function() {
         self.publishEvents();
     }
 
-    self.markUserOnline = function(userName) {
-        var user = $(".list-group-item").find("[data-user='" + userName + "']");
-        user.addClass("label label-success");
-        user.html("Online");
+    self.markUserOnline = function (userName) {
+        var newUser = $(".list-group a[data-user='" + userName + "']").find(".glyphicon-user");
+        newUser.addClass("user-online");
+        //var user = $(".list-group-item").find("[data-user='" + userName + "']");
+        //user.addClass("label label-success");
+        //user.html("Online");
     }
 
-    self.markUserOffline = function(userName) {
-        var user = $(".list-group-item").find("[data-user='" + userName + "']");
-        user.removeClass("label label-success");
-        user.html("");
+    self.markUserOffline = function (userName) {
+        var newUser = $(".list-group a[data-user='" + userName + "']").find(".glyphicon-user");
+        console.log(newUser.length);
+        newUser.removeClass("user-online");
+        //var user = $(".list-group-item").find("[data-user='" + userName + "']");
+        //user.removeClass("label label-success");
+        //user.html("");
     }
 
     self.publishEvents = function () {
