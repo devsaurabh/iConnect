@@ -1062,8 +1062,6 @@
     <Content Include="Scripts\amplify\amplify.store.min.js" />
     <Content Include="Scripts\app\chat.js" />
     <Content Include="Scripts\GPL-LICENSE.txt" />
-    <Content Include="Scripts\knockout-3.2.0.debug.js" />
-    <Content Include="Scripts\knockout-3.2.0.js" />
     <Content Include="Scripts\MIT-LICENSE.txt" />
     <Content Include="Scripts\noty\jquery.noty.js" />
     <Content Include="Scripts\noty\layouts\bottom.js" />

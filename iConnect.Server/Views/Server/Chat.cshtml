@@ -37,7 +37,7 @@
                     var status = @item.IsOnline ? "Online" : "";
                     var statusCssClass = @item.IsOnline ? "label label-success" : "";
 
-                    <a href="#" class="list-group-item user-list-item" data-user="@item.UserName">
+                    <a href="#" class="list-group-item" data-user="@item.UserName">
                         <span class="glyphicon glyphicon-user"></span> <span>@item.Alias</span>
                         <span class="@statusCssClass" data-user="@item.UserName" style="float:right">@Html.DisplayFor(modelItem => status)</span>
                     </a>
@@ -95,24 +95,7 @@
     </div>
 </div>
 
-<div class="modal" id="broadcast" tabindex="-1" role="dialog" aria-labelledby="broadcastTitle" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="broadcastTitle">Broadcast Message</h4>
-            </div>
-            <div class="modal-body">
-                <label for="txtMessage" class="control-label">Message</label>
-                <input type="text" id="txtMessage" class="form-control">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" type="submit" onclick="chatterApp.broadcast($('#txtMessage').val());">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="modal" id="addMember" tabindex="-1" role="dialog" aria-labelledby="groupModelTitle" aria-hidden="true">
     <div class="modal-dialog">
@@ -157,7 +140,7 @@
 
             }
 
-            $(".user-list-item").click(function () {
+            $(".list-group-item").click(function () {
                 $("#chat-user").remove();
                 $("#chat-area").prepend('<span class="label label-success" id="chat-user"></span>');
                 var user = $(this).attr("data-user");

@@ -45,7 +45,8 @@ namespace iConnect.Server
                     Alias = serializeModel.Alias,
                     Avatar = serializeModel.Avatar
                 };
-                HttpContext.Current.User = newUser;
+                if (HttpContext.Current != null)
+                    HttpContext.Current.User = newUser;
             }
         }
 
