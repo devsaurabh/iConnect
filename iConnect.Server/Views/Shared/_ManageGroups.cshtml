@@ -1,0 +1,21 @@
+﻿
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="groupModelTitle">Manage Group</h4>
+            </div>
+            <div class="modal-body">
+                <ul id="check-list-box" class="list-group checked-list-box">
+                    @*@foreach (var item in Model)
+                    {
+                        <li class="list-group-item">@item.Alias (@item.UserName)</li>
+                    }*@
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary col-xs-12" id="get-checked-data">Get Checked Data</button>
+                <pre id="display-json"></pre>
+            </div>
+        </div>
+    </div>

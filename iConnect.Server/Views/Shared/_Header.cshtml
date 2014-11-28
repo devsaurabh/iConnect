@@ -18,10 +18,6 @@
             <ul class="nav navbar-nav">
                 @if(Roles.IsUserInRole(UserType.Admin.ToString()))
                 {
-                    
-                        
-                    
-
                     <li><a href='@Url.Action("Chat", "Server")'> <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Chat</a></li>
                     <li><a href='@Url.Action("GetUserList", "Server")'><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a></li>
@@ -30,12 +26,8 @@
             @if (Request.IsAuthenticated)
             {
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a> Welcome <strong>@(((CustomPrincipal)User).Alias) </strong></a>
-                    </li>
-                    <li>
-                        <a href=# data-toggle="modal" data-target="#broadcast"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></a>
-                    </li>                        
+                    <li><a> Welcome <strong>@(((CustomPrincipal)User).Alias) </strong></a></li>
+                    <li><a href=# data-modal='@Url.Action("GetBroadcast","Server")' class="modal-link"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span></a></li>                        
                     <li>
                         <a href='@Url.Action("Logout", "Server")' onclick="javascript: chatServer.Logout('@User.Identity.Name'); return true;">
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
@@ -43,7 +35,7 @@
                         </a>
                     </li>
                 </ul>
-            }                
+            } 
         </div>
    
     </div>

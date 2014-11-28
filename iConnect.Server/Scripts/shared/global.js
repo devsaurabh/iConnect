@@ -1,38 +1,12 @@
-﻿/* jQuery Tiny Pub/Sub - v0.7 - 10/27/2011
- * http://benalman.com/
- * Copyright (c) 2011 "Cowboy" Ben Alman; Licensed MIT, GPL */
+﻿$(function () {
 
+    $('a.modal-link').click(function () {
+        var url = $(this).data("modal");
+        $.get(url, function (data) {
+            $('#modal').html(data);
 
-
-
-var connection;
-
-// Common Methods
-$(function () {
-    connection = $.connection.hub.start();
-    //$('#broadcast-alert').on('closed.bs.alert', function () {
-    //    $(body).remove($("#broadcast-alert"));
-    //    // do something…
-    //});
+            $('#modal').modal('show');
+            $('body').removeClass("modal-open");
+        });
+    });
 });
-
-//function markOnline(userName) {
-//    var user = $(".list-group-item").find("[data-user='" + userName + "']");
-//    user.addClass("label label-success");
-//    user.html("Online");
-//}
-
-//function markOffline(userName) {
-//    var user = $(".list-group-item").find("[data-user='" + userName + "']");
-//    user.removeClass("label label-success");
-//    user.html("");
-//}
-
-//function showAlert(fromUser, message) {
-//    var div = '<div class="alert alert-success alert-dismissible" role="alert" id="broadcast-alert">' +
-//              '<button type="button" class="close" data-dismiss="alert">' +
-//              '<span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><strong>' + fromUser +
-//         + '</strong>' + message + '</div>';
-//    $('body').prepend(div);
-//    $(div).show();
-//}

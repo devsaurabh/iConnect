@@ -45,7 +45,9 @@ namespace iConnect.Server.Controllers
 
         public ActionResult Chat()
         {
-            var allUsers = _userService.GetAllUsers();
+            var allUsers = _userService.GetAllUsers().ToList();
+            var currentUser = allUsers.SingleOrDefault(user => user.EmailAddress == User.Identity.Name);
+            allUsers.Remove(currentUser);
             var model = allUsers.Select(usr => new UserViewModel
             {
                 UserId = usr.UserId,
@@ -192,17 +194,23 @@ namespace iConnect.Server.Controllers
             return View();
         }
 
-        public ActionResult Logout()
-        {
-            WebSecurity.Logout();
-            return RedirectToAction("Login", "Server");
-        }
+        
 
         public ActionResult GetEmoticons()
         {
             var emoticons = new EmoctionParser().GetAutoReplaceEmoticons();
             var result = Json(emoticons, JsonRequestBehavior.AllowGet);
             return result;
+        }
+
+        public ActionResult GetBroadcast()
+        {
+            return PartialView("_Broadcast");
+        }
+
+        public ActionResult GetManageGroups()
+        {
+            return PartialView("_ManageGroups");
         }
 
         #endregion

@@ -1,0 +1,29 @@
+﻿<div class="col-lg-8" id="chat-area">
+    <div class="chatWithText"></div>
+
+    <div class="row chat-box">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row chat-area">
+                        <div class="col-lg-12">
+                            <ul id="ulChatMessages"></ul>
+                        </div>
+                    </div>
+                    <div class="row chat-buttons">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" id="txtPrivateMessage" class="form-control" onkeyup=" if (event.which == 13) chatterApp.sendPrivate($('#chat-user').attr('data-user'), $('#txtPrivateMessage').val());">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="btnSubmit" type="submit" onclick="chatterApp.sendPrivate($('#chat-user').attr('data-user'), $('#txtPrivateMessage').val())">Submit</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

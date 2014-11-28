@@ -161,6 +161,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Framework\Emoctions\EmoctionParser.cs" />
     <Compile Include="Framework\Hubs\ChatHub.cs" />
@@ -1061,6 +1062,7 @@
     <Content Include="Scripts\amplify\amplify.store.js" />
     <Content Include="Scripts\amplify\amplify.store.min.js" />
     <Content Include="Scripts\app\chat.js" />
+    <Content Include="Scripts\controllers\LoginController.js" />
     <Content Include="Scripts\GPL-LICENSE.txt" />
     <Content Include="Scripts\MIT-LICENSE.txt" />
     <Content Include="Scripts\noty\jquery.noty.js" />
@@ -1083,8 +1085,6 @@
     <Content Include="Scripts\noty\themes\default.js" />
     <Content Include="Scripts\noty\themes\relax.js" />
     <Content Include="Scripts\README.txt" />
-    <Content Include="Scripts\shared\chatClient.js" />
-    <Content Include="Scripts\shared\chatServer.js" />
     <Content Include="Scripts\shared\emoticonParser.js" />
     <Content Include="Scripts\shared\global.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1133,6 +1133,9 @@
     <Content Include="Views\Server\Login.cshtml" />
     <Content Include="Views\Shared\_HeaderLayout.cshtml" />
     <Content Include="Views\Server\Edit.cshtml" />
+    <Content Include="Views\Shared\_ChatBox.cshtml" />
+    <Content Include="Views\Shared\_Broadcast.cshtml" />
+    <Content Include="Views\Shared\_ManageGroups.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

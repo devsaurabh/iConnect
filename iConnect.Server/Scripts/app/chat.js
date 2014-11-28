@@ -1,10 +1,12 @@
 ﻿
 var Chatter = function() {
+    var connection;
     var chatHub = $.connection.chatHub;
     var self = this;
+
+    
     self.currentUser = "";
     self.userAlias = "";
-
     self.emoticonImagePath = "../Content/Emoticons";
     self.emoticonUrl = "GetEmoticons";
     self.emoticons = null;
@@ -19,11 +21,11 @@ var Chatter = function() {
         self.emoticons.getEmoticonCodes();
 
         // connect to signalR server
+        connection = $.connection.hub.start();
         self.connectToServer(currentUser);
         
         // publish all client side events
         self.publishEvents();
-
     }
 
     self.markUserOnline = function(userName) {
@@ -108,6 +110,7 @@ var Chatter = function() {
 
     amplify.subscribe("client-onDisconnect", function (userName) {
         self.markUserOffline(userName);
+        return false;
     });
 
     amplify.subscribe("client-onPrivate", function (userName, message) {
@@ -148,7 +151,6 @@ var Chatter = function() {
     });
 
     amplify.subscribe("server-sendPrivate", function (sendTo, message) {
-        
         $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
         $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
         $('#txtPrivateMessage').val("");
