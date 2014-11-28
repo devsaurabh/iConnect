@@ -1,11 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using System.Web.Security;
 using iConnect.Data;
 using iConnect.Data.ApplicationServices;
 using iConnect.Data.ApplicationServices.Contract;
 using iConnect.Data.Model;
 using iConnect.Server.Framework.Emoctions;
+using iConnect.Server.Framework.Identity;
 using iConnect.Server.ViewModels;
 using WebMatrix.WebData;
 using iConnect.Server.Filters;
@@ -28,7 +32,6 @@ namespace iConnect.Server.Controllers
         {
             var chatContext = new ChatContext();
             _userService = new UserService(chatContext);
-            //_authenticationsService = new AuthenticationService(_userService);
         }
         
         #endregion
@@ -42,7 +45,6 @@ namespace iConnect.Server.Controllers
 
         public ActionResult Chat()
         {
-            //WebSecurity.ChangePassword("saurabh.singh@cardinalts.com", "123456", "555555");
             var allUsers = _userService.GetAllUsers();
             var model = allUsers.Select(usr => new UserViewModel
             {
@@ -177,6 +179,7 @@ namespace iConnect.Server.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                CreateAuthenticationTicket(model.UserName);
                 return RedirectToAction("Chat");
             }
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
@@ -242,6 +245,26 @@ namespace iConnect.Server.Controllers
                 default:
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
+        }
+
+        private void CreateAuthenticationTicket(string username)
+        {
+            var authUser = _userService.GetUser(username);
+            var serializeModel = new CustomPrincipalSerializedModel
+            {
+                FirstName = authUser.FirstName,
+                LastName = authUser.LastName,
+                Alias = authUser.Alias,
+                Avatar = authUser.AvatarUrl
+            };
+
+            var serializer = new JavaScriptSerializer();
+            var userData = serializer.Serialize(serializeModel);
+
+            var authTicket = new FormsAuthenticationTicket(1, username, DateTime.Now, DateTime.Now.AddHours(8), false, userData);
+            string encTicket = FormsAuthentication.Encrypt(authTicket);
+            var faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+            Response.Cookies.Add(faCookie);
         }
         
         #endregion

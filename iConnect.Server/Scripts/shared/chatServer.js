@@ -3,10 +3,12 @@
     var chatHub = $.connection.chatHub;
 
     self.connectToServer = function (userName) {
-        connectionObject.done(function () {
-            markOnline(userName);
-            chatHub.server.connect(userName).
-                fail(function () {
+        connectionObject.done(function() {
+            //markOnline(userName);
+            chatHub.server.connect(userName).done(function() {
+                    $.publish("server-connect", [userName]);
+                }).
+                fail(function() {
                     console.log("Unable to connect to server");
                 });
         });

@@ -171,6 +171,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ServerController.cs" />
+    <Compile Include="Framework\Identity\ICustomPrincipal.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Global.asax.cs">
@@ -1050,7 +1051,20 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <None Include="Scripts\amplify-vsdoc.js" />
+    <Content Include="Scripts\amplify.js" />
+    <Content Include="Scripts\amplify.min.js" />
+    <Content Include="Scripts\amplify\amplify.core.js" />
+    <Content Include="Scripts\amplify\amplify.core.min.js" />
+    <Content Include="Scripts\amplify\amplify.request.js" />
+    <Content Include="Scripts\amplify\amplify.request.min.js" />
+    <Content Include="Scripts\amplify\amplify.store.js" />
+    <Content Include="Scripts\amplify\amplify.store.min.js" />
     <Content Include="Scripts\app\chat.js" />
+    <Content Include="Scripts\GPL-LICENSE.txt" />
+    <Content Include="Scripts\knockout-3.2.0.debug.js" />
+    <Content Include="Scripts\knockout-3.2.0.js" />
+    <Content Include="Scripts\MIT-LICENSE.txt" />
     <Content Include="Scripts\noty\jquery.noty.js" />
     <Content Include="Scripts\noty\layouts\bottom.js" />
     <Content Include="Scripts\noty\layouts\bottomCenter.js" />
@@ -1070,6 +1084,7 @@
     <Content Include="Scripts\noty\themes\bootstrap.js" />
     <Content Include="Scripts\noty\themes\default.js" />
     <Content Include="Scripts\noty\themes\relax.js" />
+    <Content Include="Scripts\README.txt" />
     <Content Include="Scripts\shared\chatClient.js" />
     <Content Include="Scripts\shared\chatServer.js" />
     <Content Include="Scripts\shared\emoticonParser.js" />
@@ -1097,7 +1112,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

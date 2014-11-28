@@ -1,10 +1,14 @@
 ﻿using System.Data.Entity;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Script.Serialization;
+using System.Web.Security;
 using iConnect.Data;
 using System.Data.Entity.Infrastructure;
+using iConnect.Server.Framework.Identity;
 using WebMatrix.WebData;
 using System;
 using System.Threading;
@@ -12,15 +16,8 @@ using System.Threading;
 
 namespace iConnect.Server
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
-        private static SimpleMembershipInitializer _initializer;
-        private static object _initializerLock = new object();
-        private static bool _isInitialized;
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -29,42 +26,29 @@ namespace iConnect.Server
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            //InitDatabase();
-
-            //LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
         }
+        
 
-        private class SimpleMembershipInitializer
+        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
         {
-            public SimpleMembershipInitializer()
+            var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
             {
-                Database.SetInitializer<ChatContext>(null);
-
-                try
+                var authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                var serializer = new JavaScriptSerializer();
+                if (authTicket.UserData == "OAuth") return;
+                var serializeModel = serializer.Deserialize<CustomPrincipalSerializedModel>(authTicket.UserData);
+                var newUser = new CustomPrincipal(authTicket.Name)
                 {
-                    using (var context = new ChatContext())
-                    {
-                        if (!context.Database.Exists())
-                        {
-                            // Create the SimpleMembership database without Entity Framework migration schema
-                            ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-                        }
-                    }
-
-                    WebSecurity.InitializeDatabaseConnection("ChatConnection", "Users", "UserId", "EmailAddress", autoCreateTables: false);
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
-                }
+                    FirstName = serializeModel.FirstName,
+                    LastName = serializeModel.LastName,
+                    Alias = serializeModel.Alias,
+                    Avatar = serializeModel.Avatar
+                };
+                HttpContext.Current.User = newUser;
             }
         }
 
-        private void InitDatabase()
-        {
-            var context = new ChatContext();
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ChatContext>());
-            context.Database.Initialize(true);
-        }
+       
     }
 }
