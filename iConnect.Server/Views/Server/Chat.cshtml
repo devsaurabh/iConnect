@@ -20,7 +20,7 @@
                 @foreach (var item in Model)
                 {
                     <a href="#" class="list-group-item" data-user="@item.UserName">
-                        <span class="glyphicon glyphicon-user @(@item.IsOnline ? "user-online" : "")" ></span> <span>@item.Alias</span>
+                        <span class="glyphicon glyphicon-user @(@item.IsOnline ? "user-online" : "")" ></span> <span data-alias="@item.Alias">@item.Alias</span>
                     </a>
                 }
             </div>
@@ -66,9 +66,10 @@
                 $("#chat-area").prepend('<span class="label label-success" id="chat-user"></span>');
                 var user = $(this).attr("data-user");
                 $("#chat-user").attr("data-user", user);
-                var alias = $(this).text();
+                var alias = $(this).text();                
                 alias = alias.replace("Online", "");
                 $(".chatWithText").html("<span class='label label-success' style='background-color:#2B97EA!important;'>Chatting with " + alias + "</span>");
+                console.log($($(this)).find(".badge badge-space").html());
             });
         });
 

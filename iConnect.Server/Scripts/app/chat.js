@@ -118,8 +118,11 @@ var Chatter = function() {
         return false;
     });
 
+    /* Message recieved by Reciever */
     amplify.subscribe("client-onPrivate", function (userName, message) {
         $('#ulChatMessages').append('<li><strong>' + userName + ": </strong>" + message + '</li>');
+        //var newUser = $(".list-group a[data-user='" + userName + "']").find(".glyphicon-user");
+        $('.list-group span[data-alias=' + userName + ']').append('<span class="badge badge-space">...</span>')
         return false;
     });
 
@@ -155,6 +158,7 @@ var Chatter = function() {
         return false;
     });
 
+    /* Message sent by Sender */
     amplify.subscribe("server-sendPrivate", function (sendTo, message) {
         $('#ulChatMessages').append('<li><strong>You: </strong>' + message + '</li>');
         $(".chat-area").animate({ scrollTop: $('.chat-area')[0].scrollHeight }, 600);
